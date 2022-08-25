@@ -15,5 +15,5 @@ export function getCtypeSchema() {
         type: 'object'
     })
 }
-
+// it is the same ctypeSchema as in the attester entity
 // console.log(getCtypeSchema())

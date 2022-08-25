@@ -2,7 +2,7 @@ import * as Kilt from "@kiltprotocol/sdk-js"
 
 import { createClaim } from "./createClaim.js"
 import { generateKeypairs } from "./generateKeypairs.js"
-import { getCtypeSchema } from "../attester/ctypeSchema.js"
+import { getCtypeSchema } from "./ctypeSchema.js"
 
 import env from "../../env.json" assert {type: "json"}
 
