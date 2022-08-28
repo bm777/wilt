@@ -1,0 +1,32 @@
+{
+    "mnemonic":"ice range review buzz indoor mirror plug quote issue vague vague process",
+    "lightDid": "did:kilt:light:004pLY3cgjqEfCV9so6rSoNhyPNJGCxzhmdVrPRDtaQV1v833p:z1Ac9CMtYCTRWjetJfJqJoV7FcNAi82bRXWyn4D9fvPAyw62CkQpoQjra6xqt5d5E5ubW1HKmSmqZP3tP9hdK3W",
+    "claim_req": {
+      "claim": {
+        "cTypeHash": "0x7e4cc272b70a7985549932c05771819e4003346fc48aaf04bea179b6c0ff63ca",
+        "contents": {
+          "age": 22,
+          "name": "bm777"
+        },
+        "owner": "did:kilt:light:004saGpeFufLArXL8tFhFn3Xgm5Zh6NvvGVkvcUk9ksCgcYwtW:z1Ac9CMtYCTRWjetJfJqJoV7FcPJz5wW2ZR52WX7oZLVbGSexBygko7uvsx7TomHrAaTCaTcTnqX4AXHWWVSy6p"
+      },
+      "claimHashes": [
+        "0x4e279bebdd8087686dbc9bad82948805ceaae6fd7b21efad0ef5ed374944ccbd",
+        "0xd126245f717e4750c6706e8df2ba2890d8420b2f9878201db76372b29126dc31",
+        "0xd3b0a034efb2a3ba05877b602f1483b7c769226d25316bceb03c7d6a021d9b62"
+      ],
+      "claimNonceMap": {
+        "0x3daeb95f5415bbada9fcec834df8358c2a2d54ec2b2230da8e9910f3f6416e4f": "1bee42b3-6e6c-4680-bbf7-c199f3ff9b66",
+        "0x6b2883b43a4c391a47366b1e1069a1b7f5373e5c5e4684140098a7838c4dbea6": "62e6526a-7017-475d-b8e0-876cf969702f",
+        "0x96704f609951ab602e0aa996f613f321298a0b1a5bc711447eb386cde0d314c5": "0071c952-8992-4dbe-93fd-c834cd823873"
+      },
+      "legitimations": [],
+      "delegationId": null,
+      "rootHash": "0x517af25a1a7be28eb70012031d56f3776fd8e4a8af2d1cafb70ad6f21cb51959",
+      "claimerSignature": {
+        "signature": "0xae96212af3540943d2f4427a70e97aea15b308d90a65dd4f4e001fa904c7403d00f5120a0f5fe8625a770a75ec21bba7981557158f9c214aa9a6c3c4070e008d",
+        "keyUri": "did:kilt:light:004saGpeFufLArXL8tFhFn3Xgm5Zh6NvvGVkvcUk9ksCgcYwtW:z1Ac9CMtYCTRWjetJfJqJoV7FcPJz5wW2ZR52WX7oZLVbGSexBygko7uvsx7TomHrAaTCaTcTnqX4AXHWWVSy6p#authentication"
+      }
+    }
+
+}
