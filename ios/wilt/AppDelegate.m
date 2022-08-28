@@ -45,6 +45,7 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
   bridge.surfacePresenter = _bridgeAdapter.surfacePresenter;
 #endif
 
+  // NSDictionary *initProps = [self prepareInitialProps];
   NSDictionary *initProps = [self prepareInitialProps];
   UIView *rootView = [self.reactDelegate createRootViewWithBridge:bridge moduleName:@"main" initialProperties:initProps];
 

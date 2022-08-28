@@ -1,31 +1,11 @@
 import React from 'react';
-import { Button, Text, View } from 'react-native'
-import { TailwindProvider } from 'tailwindcss-react-native';
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+import Ionicons from "react-native-vector-icons/Ionicons";
+import Profile from "./components/Profile.js"
+import Ticket from "./components/Ticket.js"
 
-function Ticket({ navigation }){
-  return (
-    <TailwindProvider>
-      <View className="flex-1 items-center justify-center">
-        <Text >Ticket</Text>
-        
-      </View>
-    </TailwindProvider> 
-  )
-}
-function Profile({ navigation }){
-  return (
-    <TailwindProvider>
-      <View className="flex-1 items-center justify-center">
-        <Text>Profile</Text>
-        
-      </View>
-      
-    </TailwindProvider> 
-  )
-}
 
 // the Bottom Navigator
 const Tab = createBottomTabNavigator()
@@ -38,14 +18,14 @@ export default function App() {
           let iconName
           if (route.name === "Ticket"){
             iconName = focused
-              ? "ios-information-circle"
-              : "ios-information-circle-outline"
+              ? "ios-bandage-sharp"
+              : "ios-bandage-outline"
           } else if (route.name === "Profile") {
-            iconName = focused ? "ios-list-box" : "ios-list"
+            iconName = focused ? "ios-person" : "ios-person-outline"
           }
           return <Ionicons name={iconName} size={size} color={color}/>
         },
-        tabBarActiveTintColor: "tomato",
+        tabBarActiveTintColor: "indigo",
         tabBarInactiveTintColor: "gray"
         })}
       >

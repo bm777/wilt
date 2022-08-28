@@ -40,17 +40,19 @@ export async function generateRequest(claimAttributes, claimer_mnemonic){
     console.log("claimer -> create request")
     return await requestFromClaim(lightDid, keystore, claim)
 }
-    import { generateLightDid } from "./generateLightDid.js"
-    const claimer = await generateLightDid()
-    generateRequest({
-        age: 22,
-        name: "bm777"
-    }, claimer.mnemonic)
-        .catch((e) => {
-            console.log("Error while building request for attestation", e)
-            process.exit(1)
-        })
-        .then((req) => {
-            console.log(JSON.stringify(req, null, 2))
-            process.exit()
-        })
+
+
+import { generateLightDid } from "./generateLightDid.js"
+const claimer = await generateLightDid()
+generateRequest({
+    age: 22,
+    name: "bm777"
+}, claimer.mnemonic)
+    .catch((e) => {
+        console.log("Error while building request for attestation", e)
+        process.exit(1)
+    })
+    .then((req) => {
+        console.log(JSON.stringify(req, null, 2))
+        process.exit()
+    })
