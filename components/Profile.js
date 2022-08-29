@@ -4,22 +4,65 @@ import { TailwindProvider } from 'tailwindcss-react-native';
 
 
 const  Profile = ({ navigation }) => {
-// state
-const [name, setName] = React.useState("")
-const [age, setAge] = React.useState(0)
-const [isSaved, setIsSaved] = React.useState(false)
+    // text
+    const td= {
+        "first": {
+            "header": "Personal Information",
+            "sub": "You might not want to share these informations, because another personal can use it to claim a ticket with your information."
+        },
+        "second": {
+            "header": "Crypro wallet",
+            "sub": "The whole point of these word word is to ensure crypto wallet can be accessed if the password lost."
+        },
+        "last": {
+            "header": "Crypto wallet",
+            "sub": "Account is set up."
+        }
+    }
+    // state
+    const [name, setName] = React.useState("")
+    const [age, setAge] = React.useState(0)
+    const [isSaved, setIsSaved] = React.useState(false)
+    const [last, setLast] = React.useState(false)
+    const [mnemonic, setMnemonic] = React.useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
 
-// handle Save button
-const handleSave= () => {
-    setIsSaved(true)
-}
+    // handle Save button
+    const handleSave= () => {
+        setIsSaved(true)
+    }
+    const handleDone = () => {
+        setLast(true)
+        setIsSaved(false)
+    }
+    const handleLast = () => {
+        setLast(true)
+        setIsSaved(false)
+    }
+
+
 
     return (
       <TailwindProvider>
         <View className="flex-1 items-center mt-10">
-            <Text className="font-bold text-3xl">Personal Information</Text>
+            <Text className="font-bold text-3xl">
+                {
+                    (!isSaved)
+                    ? td.first.header
+                    : 
+                    <Text>
+                        {(last) ? td.last.header : td.second.header}
+                    </Text>
+                }
+            </Text>
             <Text className="text-slate-600 mt-5 mx-10">
-                You might not want to share these informations, because another personal can use it to claim a ticket with your information
+                {
+                    (!isSaved)
+                    ? td.first.sub
+                    : 
+                    <Text>
+                        {(last) ? td.last.sub : td.second.sub}
+                    </Text>
+                }
             </Text>
 
             
@@ -61,11 +104,28 @@ const handleSave= () => {
                 </View>
                 )
                 :
-                (
                 <View className="w-full flex items-center">
-                    <Text className="self-start text-gray-500 mx-20 mt-10">Get ticket</Text>
-                </View> 
-                )
+                    {
+                        (last)
+                        ?
+                        <View>
+                            <View className="w-4/5 h-14 bg-teal-800 mt-10 rounded-full flex justify-center">
+                                <Button className=" text-center text-lg font-medium" title='Done' color={"white"} onPress={handleLast}/>
+                            </View>
+                        </View>
+                        :
+                        <View className="w-full flex flex-wrap justify-center flex-row gap-7 mt-10">
+                        {mnemonic.map((word, idx) => (
+                            <View className="bg-teal-200 w-40 rounded-full" key={idx}>
+                                <Text className="self-center text-black py-2 font-semibold">({idx+1}) {word}</Text>
+                            </View>
+                        ))}
+                        <View className="w-4/5 h-14 bg-teal-800 mt-10 rounded-full flex justify-center">
+                            <Button className=" text-center text-lg font-medium" title='Done' color={"white"} onPress={handleDone}/>
+                        </View>
+                    </View>
+                    }
+                </View>
             }
 
 
