@@ -31,12 +31,14 @@ const  Profile = ({ navigation }) => {
         setIsSaved(true)
     }
     const handleDone = () => {
+        // actions to generate the mnemonic and the lightDID
+
+        //
         setLast(true)
         setIsSaved(false)
     }
     const handleLast = () => {
-        setLast(true)
-        setIsSaved(false)
+        navigation.navigate("Ticket")
     }
 
 
@@ -108,10 +110,11 @@ const  Profile = ({ navigation }) => {
                     {
                         (last)
                         ?
-                        <View>
-                            <View className="w-4/5 h-14 bg-teal-800 mt-10 rounded-full flex justify-center">
-                                <Button className=" text-center text-lg font-medium" title='Done' color={"white"} onPress={handleLast}/>
+                        <View className=" w-full flex items-center h-full">
+                            <View className="w-4/5 h-14 px-10 bg-teal-800 rounded-full flex justify-center top-3/4 ">
+                                <Button className=" text-center text-lg font-bold" title='Done' color={"white"} onPress={handleLast}/>
                             </View>
+
                         </View>
                         :
                         <View className="w-full flex flex-wrap justify-center flex-row gap-7 mt-10">
