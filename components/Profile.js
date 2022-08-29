@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Button, Text, TextInput, View } from 'react-native'
 import { TailwindProvider } from 'tailwindcss-react-native';
 
@@ -20,25 +20,26 @@ const  Profile = ({ navigation }) => {
         }
     }
     // state
-    const [name, setName] = React.useState("")
-    const [age, setAge] = React.useState(0)
-    const [isSaved, setIsSaved] = React.useState(false)
-    const [last, setLast] = React.useState(false)
-    const [mnemonic, setMnemonic] = React.useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
+    const [name, setName] = useState("")
+    const [age, setAge] = useState(0)
+    const [isSaved, setIsSaved] = useState(false)
+    const [last, setLast] = useState(false)
+    const [mnemonic, setMnemonic] = useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
 
     // handle Save button
     const handleSave= () => {
-        setIsSaved(true)
-    }
-    const handleDone = () => {
         // actions to generate the mnemonic and the lightDID
 
         //
+        setIsSaved(true)
+    }
+    const handleDone = () => {
         setLast(true)
-        setIsSaved(false)
     }
     const handleLast = () => {
-        navigation.navigate("Ticket")
+        navigation.navigate("Ticket", {
+            params: {setting: "done"}
+        })
     }
 
 
