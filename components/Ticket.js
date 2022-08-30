@@ -30,6 +30,12 @@ const Ticket = ({ navigation, route }) => {
   const [_hash, setHash] = useState("")
 
   // -------------------------------------------------------------------
+  // useEffect(() => {
+  //   const d = qr_text.split("/")[4]
+  //   if (d) {
+  //     setStatus("")
+  //   }
+  // }, [])
 
   // handle
   const handleStart = () => {
@@ -57,7 +63,9 @@ const Ticket = ({ navigation, route }) => {
       }
       else if (status === "Ticket Avalaible") {
         // actions
-        
+        navigation.navigate("Scanner", {
+          params: {current: setting ? "done": ""}
+        })
         //
         setTodo("Check Result")
         setExplain("you might click on Check Result to see the result, sometime, the network may be busy.")
