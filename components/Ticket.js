@@ -1,15 +1,25 @@
 import { Button, Text, View } from 'react-native'
 import React, {useState, useEffect} from 'react';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import { TailwindProvider } from 'tailwindcss-react-native';
 
 const Ticket = ({ navigation, route }) => {
   let setting
+  let qr_text
+  let qr_bool
   try {
     setting = JSON.stringify(route).includes(JSON.stringify({setting: "done"}))
   } catch {
     setting = false
   }
+  try {
+    qr_bool = JSON.stringify(route).includes(`"setting":"done","qr":"`)
+    qr_text = route.params.params.qr
+  } catch {
+    qr_text = ""
+    qr_bool = false
+  }
+
+  if (qr_bool === true) setting = true
   
   // states --------------------------------------------------------------
   const [status, setStatus] = useState("No Ticket")
@@ -18,42 +28,24 @@ const Ticket = ({ navigation, route }) => {
   const [w3n, setW3n] = useState("")
   const [did, setDid] = useState("")
   const [_hash, setHash] = useState("")
-  //------- permission for QR CODE scann statees -------------------------
-  const [hasPermission, setHasPermission] = useState(null)
-  const [scanned, setScanned] = useState(false)
-
-  // useEffect ------------------ QR CODE SCAN----------------------------
-  useEffect(() => {
-    const getQrCodeScannerPermissions = async () => {
-      const { __status } = await BarCodeScanner.requestPermissionsAsync()
-      setHasPermission(__status === "granted")
-    };
-
-    getQrCodeScannerPermissions()
-  }, [])
-
-  const handleQrCodeScanned = ({ type, data }) => {
-    setScanned(true)
-    alert(`Bar code with type ${type} has been scanned!`)
-  }
-  
-
 
   // -------------------------------------------------------------------
 
   // handle
   const handleStart = () => {
-    navigation.navigate("Scanner")
-    // navigation.navigate("Profile")
+    // navigation.navigate("Scanner")
+    navigation.navigate("Profile")
   }
   const handleSpeed = () => {
       if (status === "No Ticket") {
         // actions
-        // navigation.navigate("Scanner")
+        navigation.navigate("Scanner", {
+          params: {current: setting ? "done": ""}
+        })
         //
         setTodo("Speed UP")
         setExplain("Wait a while. If it the ticket is not available, click on Speed UP.")
-        setStatus("Ticket Claimed")
+        setStatus("Ticket Claimed-")
       }
       else if (status === "Ticket Claimed") {
         // actions
@@ -84,7 +76,7 @@ const Ticket = ({ navigation, route }) => {
     return (
       <TailwindProvider>
         {
-          (setting)
+          (setting )
           ?
           <View className="flex-1 items-center">
             

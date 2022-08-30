@@ -5,10 +5,17 @@ import { TailwindProvider } from "tailwindcss-react-native";
 
 
 
-export default function Scanner({ navigation }) {
+export default function Scanner({ navigation, route }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [text, setText] = useState("Not yet scanned");
+  const [text, setText] = useState("Please scan the Qr code");
+
+  let _
+  try {
+      _ = JSON.stringify(route).includes(JSON.stringify({current: "done"}))
+  } catch {
+    _ = false
+  }
 
 
   const askForCameraPermission = () => {
@@ -26,7 +33,7 @@ export default function Scanner({ navigation }) {
   // What happens when we scan the bar code
   const handleBarCodeScanned = ({ type, data }) => {
     setText(data)
-    navigation.navigate("Ticket", {qr: text})
+    navigation.navigate("Ticket", {params: {setting: _ ? "done": "", qr: text}})
   };
 
   // Check permissions and return the screens
@@ -56,7 +63,6 @@ export default function Scanner({ navigation }) {
             <View >
                 <BarCodeScanner
                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-                // style={{ height: 400, width: 400 }}
                 className="w-full h-5/6"
                 />
             </View>
