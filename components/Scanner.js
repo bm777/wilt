@@ -33,7 +33,14 @@ export default function Scanner({ navigation, route }) {
   // What happens when we scan the bar code
   const handleBarCodeScanned = ({ type, data }) => {
     setText(data)
-    navigation.navigate("Ticket", {params: {setting: _ ? "done": "", qr: text}})
+
+    if(_ && text.split("/").length >= 4){
+        const value = text.split("/")[4]
+        if(value === "attester" || value === "verifier")
+        navigation.navigate("Ticket", {params: {setting: _ ? "done": "", qr: text}})
+    }
+    
+    
   };
 
   // Check permissions and return the screens

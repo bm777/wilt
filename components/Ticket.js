@@ -45,7 +45,7 @@ const Ticket = ({ navigation, route }) => {
         //
         setTodo("Speed UP")
         setExplain("Wait a while. If it the ticket is not available, click on Speed UP.")
-        setStatus("Ticket Claimed-")
+        setStatus("Ticket Claimed")
       }
       else if (status === "Ticket Claimed") {
         // actions
