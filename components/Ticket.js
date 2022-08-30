@@ -25,7 +25,38 @@ const Ticket = ({ navigation, route }) => {
     navigation.navigate("Profile")
   }
   const handleSpeed = () => {
+      if (status === "No Ticket") {
+        // actions
 
+        //
+        setTodo("Speed UP")
+        setExplain("Wait a while. If it the ticket is not available, click on Speed UP.")
+        setStatus("Ticket Claimed")
+      }
+      else if (status === "Ticket Claimed") {
+        // actions
+        
+        //
+        setTodo("Verify")
+        setExplain("Your ticket is ready, you need to verify it to access to the event.")
+        setStatus("Ticket Avalaible")
+      }
+      else if (status === "Ticket Avalaible") {
+        // actions
+        
+        //
+        setTodo("Check Result")
+        setExplain("you might click on Check Result to see the result, sometime, the network may be busy.")
+        setStatus("Verifying the Ticket")
+      }
+      else if (status === "Verifying the Ticket") {
+        // actions
+        
+        //
+        setTodo("Check Result")
+        setExplain("Your Ticket is ready")
+        setStatus("Completely Verified :)")
+      }
   }
 
     return (
@@ -81,11 +112,11 @@ const Ticket = ({ navigation, route }) => {
                       </Text>
                 </View>
               </View>
-              <Text className="font-medium text-lg text-[#583250] text-center mt-2 ">
+              <Text className="font-medium text-lg text-slate-500 text-center mt-2 mx-5">
                 {explain} 
               </Text>
-              <View className="w-full h-full mt-12 items-center">
-                  <View className="w-11/12 h-16 bg-[#861F64] mt-12 rounded-lg justify-center ">
+              <View className="w-full h-full mt-10 items-center">
+                  <View className="w-11/12 h-16 bg-[#861F64] mt-10 rounded-lg justify-center ">
                         <Button color="white" className="font-medium text-lg" title={todo} onPress={handleSpeed}>
                         </Button>
                   </View>
