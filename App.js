@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Profile from "./components/Profile.js"
 import Ticket from "./components/Ticket.js"
+import Scanner from "./components/Scanner.js"
 
 
 // the Bottom Navigator
@@ -22,15 +23,21 @@ export default function App() {
               : "ios-bandage-outline"
           } else if (route.name === "Profile") {
             iconName = focused ? "ios-person" : "ios-person-outline"
+          } else if (route.name === "Scanner") {
+            iconName = focused ? "ios-scan-circle-sharp" : "ios-scan-circle-outline"
           }
-          return <Ionicons name={iconName} size={size} color={color}/>
+          return <Ionicons name={iconName} size={40} color={color}/>
         },
         tabBarActiveTintColor: "indigo",
-        tabBarInactiveTintColor: "gray"
+        tabBarInactiveTintColor: "gray",
+        tabBarLabelStyle: {fontSize: 14},
+        tabBarShowLabel: false
         })}
       >
         <Tab.Screen name='Ticket' component={Ticket}></Tab.Screen>
+        <Tab.Screen name='Scanner' component={Scanner}></Tab.Screen>
         <Tab.Screen name='Profile' component={Profile}></Tab.Screen>
+        
       </Tab.Navigator>
     </NavigationContainer>
     

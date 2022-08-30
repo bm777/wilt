@@ -1,6 +1,6 @@
 import { Button, Text, View } from 'react-native'
-import React, {useState} from 'react';
-import { useRoute } from '@react-navigation/native';
+import React, {useState, useEffect} from 'react';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import { TailwindProvider } from 'tailwindcss-react-native';
 
 const Ticket = ({ navigation, route }) => {
@@ -11,23 +11,45 @@ const Ticket = ({ navigation, route }) => {
     setting = false
   }
   
-  // states
+  // states --------------------------------------------------------------
   const [status, setStatus] = useState("No Ticket")
   const [explain, setExplain] = useState("")
   const [todo, setTodo] = useState("Request Ticket")
   const [w3n, setW3n] = useState("")
   const [did, setDid] = useState("")
   const [_hash, setHash] = useState("")
+  //------- permission for QR CODE scann statees -------------------------
+  const [hasPermission, setHasPermission] = useState(null)
+  const [scanned, setScanned] = useState(false)
 
+  // useEffect ------------------ QR CODE SCAN----------------------------
+  useEffect(() => {
+    const getQrCodeScannerPermissions = async () => {
+      const { __status } = await BarCodeScanner.requestPermissionsAsync()
+      setHasPermission(__status === "granted")
+    };
+
+    getQrCodeScannerPermissions()
+  }, [])
+
+  const handleQrCodeScanned = ({ type, data }) => {
+    setScanned(true)
+    alert(`Bar code with type ${type} has been scanned!`)
+  }
+  
+
+
+  // -------------------------------------------------------------------
 
   // handle
   const handleStart = () => {
-    navigation.navigate("Profile")
+    navigation.navigate("Scanner")
+    // navigation.navigate("Profile")
   }
   const handleSpeed = () => {
       if (status === "No Ticket") {
         // actions
-
+        // navigation.navigate("Scanner")
         //
         setTodo("Speed UP")
         setExplain("Wait a while. If it the ticket is not available, click on Speed UP.")
@@ -53,9 +75,9 @@ const Ticket = ({ navigation, route }) => {
         // actions
         
         //
-        setTodo("Check Result")
+        setTodo("Enjoy")
         setExplain("Your Ticket is ready")
-        setStatus("Completely Verified :)")
+        setStatus("Completely Verified 🥳")
       }
   }
 
@@ -65,6 +87,7 @@ const Ticket = ({ navigation, route }) => {
           (setting)
           ?
           <View className="flex-1 items-center">
+            
             <View className="w-11/12 h-3/5 bg-[#353164] rounded mt-10 items-center  ">
                 <Text className="font-bold text-5xl text-[#CD0E6B] mt-5 inline-block">
                   Event <Text className="text-white">Ticket</Text>
@@ -141,8 +164,8 @@ const Ticket = ({ navigation, route }) => {
                 <Button className=" text-center font-bold" title='Get Started' color={"white"} onPress={handleStart}/>
             </View>
           </View>
-          
         }
+        
 
         
       </TailwindProvider> 
