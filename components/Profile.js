@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { Button, Text, TextInput, View } from 'react-native'
 import { TailwindProvider } from 'tailwindcss-react-native';
+import * as Kilt from "@kiltprotocol/sdk-js" 
 
 
 const  Profile = ({ navigation }) => {
@@ -24,14 +25,15 @@ const  Profile = ({ navigation }) => {
     const [age, setAge] = useState(0)
     const [isSaved, setIsSaved] = useState(false)
     const [last, setLast] = useState(false)
+    const [log, setLog] = useState("")
     const [mnemonic, setMnemonic] = useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
 
     // handle Save button
-    const handleSave= () => {
+    const handleSave= async () => {
         // actions to generate the mnemonic and the lightDID
 
         //
-        setIsSaved(true)
+        // setIsSaved(true)
     }
     const handleDone = () => {
         setLast(true)
@@ -102,7 +104,7 @@ const  Profile = ({ navigation }) => {
                     <View className="w-4/5 h-14 bg-indigo-800 mt-10 rounded-full flex justify-center">
                         <Button className=" text-center text-lg font-medium" title='SAVE' color={"white"} onPress={handleSave}/>
                     </View>
-
+                    <Text>log-{log}</Text>
                     <Text className="self-start text-gray-500 mx-20 mt-10">{}</Text>
                 </View>
                 )
@@ -124,6 +126,7 @@ const  Profile = ({ navigation }) => {
                                 <Text className="self-center text-black py-2 font-semibold">({idx+1}) {word}</Text>
                             </View>
                         ))}
+                        <Text>log-{log}</Text>
                         <View className="w-4/5 h-14 bg-teal-800 mt-10 rounded-full flex justify-center">
                             <Button className=" text-center text-lg font-medium" title='Done' color={"white"} onPress={handleDone}/>
                         </View>
