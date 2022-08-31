@@ -69,7 +69,7 @@ const Ticket = ({ navigation, route }) => {
             'Accept': 'application/json',
             'Content-Type': 'application/json; charset=utf-8'
           },
-          body: JSON.stringify({"name": _name, "age": _age, "mnemonic": _mnemonic.join(',')}),
+          body: JSON.stringify({"name": _name, "age": _age, "mnemonic": _mnemonic.join(' ')}),
         })
           .then(response => response.json())
           .then(data => setExplain(JSON.stringify(data)))
