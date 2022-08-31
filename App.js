@@ -8,6 +8,7 @@ import Ticket from "./components/Ticket.js"
 import Scanner from "./components/Scanner.js"
 
 
+
 // the Bottom Navigator
 const Tab = createBottomTabNavigator()
 

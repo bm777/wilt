@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Button, Text, TextInput, View } from 'react-native'
 import { TailwindProvider } from 'tailwindcss-react-native';
-import { init, Did } from '@kiltprotocol/sdk-js';
+
 
 const  Profile = ({ navigation }) => {
     // text
@@ -30,9 +30,10 @@ const  Profile = ({ navigation }) => {
     // handle Save button
     const handleSave= async () => {
         // actions to generate the mnemonic and the lightDID
-
-        //
-        // setIsSaved(true)
+        const response = await fetch("https://wilt-attester.vercel.app/api/claimer/mnemonic")
+        const resp = await response.json()
+        setMnemonic(resp.response)
+        setIsSaved(true)
     }
     const handleDone = () => {
         setLast(true)

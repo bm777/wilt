@@ -1,10 +1,21 @@
-# kilt-react-native-template
+# Willt: Mobile Wallet
 
-A template for react native projects using KILT with Expo.
+RN project using KILT with Expo.
 
-# The attester is under building at [Attester](https://github.com/bm777/wilt-attester.git)
+# You can access the [Attester](https://github.com/bm777/wilt-attester.git)
+
 
 ## Test
 
-Soon
-(Under development)
+- Instalation
+    ```
+    yarn
+    ```
+
+- Running on expo (make sure you loggend in with your expo account `expo login`)
+    ```
+    expo start
+    
+    # if you can't connect, try using tunnel
+    expo start --tunnel
+    ```

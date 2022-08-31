@@ -49,17 +49,10 @@ const Ticket = ({ navigation, route }) => {
           params: {current: setting ? "done": ""}
         })
         //
-        setTodo("Speed UP")
-        setExplain("Wait a while. If it the ticket is not available, click on Speed UP.")
-        setStatus("Ticket Claimed")
-      }
-      else if (status === "Ticket Claimed") {
-        // actions
-        
-        //
-        setTodo("Verify")
+        setTodo("Verify") //Speed UP
         setExplain("Your ticket is ready, you need to verify it to access to the event.")
-        setStatus("Ticket Avalaible")
+        //Wait a while. If it the ticket is not available, click on Speed UP
+        setStatus("Ticket Avalaible") // Ticket Claimed
       }
       else if (status === "Ticket Avalaible") {
         // actions
@@ -67,17 +60,10 @@ const Ticket = ({ navigation, route }) => {
           params: {current: setting ? "done": ""}
         })
         //
-        setTodo("Check Result")
-        setExplain("you might click on Check Result to see the result, sometime, the network may be busy.")
-        setStatus("Verifying the Ticket")
-      }
-      else if (status === "Verifying the Ticket") {
-        // actions
-        
-        //
-        setTodo("Enjoy")
+        setTodo("Enjoy") //Check Result
         setExplain("Your Ticket is ready")
-        setStatus("Completely Verified 🥳")
+        //you might click on Check Result to see the result, sometime, the network may be busy.
+        setStatus("Completely Verified 🥳") // Verifying the Ticket
       }
   }
 
