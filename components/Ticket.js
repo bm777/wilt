@@ -6,14 +6,26 @@ const Ticket = ({ navigation, route }) => {
   let setting
   let qr_text
   let qr_bool
+  let _name; 
+  let _age
+  let _mnemonic
   try {
-    setting = JSON.stringify(route).includes(JSON.stringify({setting: "done"}))
+    setting = JSON.stringify(route).includes(`"setting":"done"`)
+    _name = route.params.params.name
+    _age = route.params.params.age
+    _mnemonic = route.params.params.mnemonic
   } catch {
     setting = false
+    _name = ""
+    _age = 0
+    _mnemonic = []
   }
   try {
     qr_bool = JSON.stringify(route).includes(`"setting":"done","qr":"`)
     qr_text = route.params.params.qr
+    _name = route.params.params.name
+    _age = route.params.params.age
+    _mnemonic = route.params.params.mnemonic
   } catch {
     qr_text = ""
     qr_bool = false
@@ -24,6 +36,8 @@ const Ticket = ({ navigation, route }) => {
   // states --------------------------------------------------------------
   const [status, setStatus] = useState("No Ticket")
   const [explain, setExplain] = useState("")
+  // const [uname, setUname] = useState("")
+  // const [age, setAge] = useState("")
   const [todo, setTodo] = useState("Request Ticket")
   const [w3n, setW3n] = useState("")
   const [did, setDid] = useState("")
@@ -42,28 +56,36 @@ const Ticket = ({ navigation, route }) => {
     // navigation.navigate("Scanner")
     navigation.navigate("Profile")
   }
-  const handleSpeed = () => {
+  const handleSpeed = async () => {
       if (status === "No Ticket") {
         // actions
         navigation.navigate("Scanner", {
-          params: {current: setting ? "done": ""}
+          params: {current: setting ? "done": "", name: _name, age: _age, mnemonic: _mnemonic.join(',')}
         })
         //
+        await fetch("https://wilt-attester.vercel.app/api/claimer/ticket", {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8'
+          },
+          body: JSON.stringify({"name": _name, "age": _age, "mnemonic": _mnemonic.join(',')}),
+        })
+          .then(response => response.json())
+          .then(data => setExplain(JSON.stringify(data)))
+
         setTodo("Verify") //Speed UP
-        setExplain("Your ticket is ready, you need to verify it to access to the event.")
+        // setExplain("Your ticket is ready, you need to verify it to access to the event.")
         //Wait a while. If it the ticket is not available, click on Speed UP
         setStatus("Ticket Avalaible") // Ticket Claimed
       }
       else if (status === "Ticket Avalaible") {
         // actions
-        navigation.navigate("Scanner", {
-          params: {current: setting ? "done": ""}
-        })
-        //
-        setTodo("Enjoy") //Check Result
-        setExplain("Your Ticket is ready")
-        //you might click on Check Result to see the result, sometime, the network may be busy.
-        setStatus("Completely Verified 🥳") // Verifying the Ticket
+        
+        
+        setTodo("Ticket Avalaible") //Check Result
+        // setExplain("Your Ticket is ready")
+        setStatus("Ticket verified") // Verifying the Ticket
       }
   }
 
@@ -122,7 +144,7 @@ const Ticket = ({ navigation, route }) => {
                 </View>
               </View>
               <Text className="font-medium text-lg text-slate-500 text-center mt-2 mx-5">
-                {explain} 
+                {explain}
               </Text>
               <View className="w-full h-full mt-10 items-center">
                   <View className="w-11/12 h-16 bg-[#861F64] mt-10 rounded-lg justify-center ">

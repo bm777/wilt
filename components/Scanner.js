@@ -11,8 +11,14 @@ export default function Scanner({ navigation, route }) {
   const [text, setText] = useState("Please scan the Qr code");
 
   let _
+  let _name
+  let _age
+  let _mnemonic
   try {
-      _ = JSON.stringify(route).includes(JSON.stringify({current: "done"}))
+      _ = JSON.stringify(route).includes(`"current":"done"`)
+      _name = route.params.params.name
+      _age = route.params.params.age
+      _mnemonic = route.params.params.mnemonic
   } catch {
     _ = false
   }
@@ -73,7 +79,7 @@ export default function Scanner({ navigation, route }) {
                 className="w-full h-5/6"
                 />
             </View>
-            <Text className="text-center text-lg mx-10">{text}</Text>
+            <Text className="text-center text-lg mx-10"> - {_mnemonic}</Text>
         </View>
       </TailwindProvider>
     

@@ -40,7 +40,7 @@ const  Profile = ({ navigation }) => {
     }
     const handleLast = () => {
         navigation.navigate("Ticket", {
-            params: {setting: "done"}
+            params: {setting: "done", name: name, age: age, mnemonic}
         })
     }
 
@@ -104,7 +104,7 @@ const  Profile = ({ navigation }) => {
                     <View className="w-4/5 h-14 bg-indigo-800 mt-10 rounded-full flex justify-center">
                         <Button className=" text-center text-lg font-medium" title='SAVE' color={"white"} onPress={handleSave}/>
                     </View>
-                    <Text>log-{log}</Text>
+                    {/* <Text>log-{log}</Text> */}
                     <Text className="self-start text-gray-500 mx-20 mt-10">{}</Text>
                 </View>
                 )
@@ -126,7 +126,7 @@ const  Profile = ({ navigation }) => {
                                 <Text className="self-center text-black py-2 font-semibold">({idx+1}) {word}</Text>
                             </View>
                         ))}
-                        <Text>log-{log}</Text>
+                        {/* <Text>log-{log}</Text> */}
                         <View className="w-4/5 h-14 bg-teal-800 mt-10 rounded-full flex justify-center">
                             <Button className=" text-center text-lg font-medium" title='Done' color={"white"} onPress={handleDone}/>
                         </View>
