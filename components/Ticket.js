@@ -60,7 +60,7 @@ const Ticket = ({ navigation, route }) => {
       if (status === "No Ticket") {
         // actions
         navigation.navigate("Scanner", {
-          params: {current: setting ? "done": "", name: _name, age: _age, mnemonic: _mnemonic.join(',')}
+          params: {current: setting ? "done": "", name: _name, age: _age, mnemonic: _mnemonic.join(' ')}
         })
         //
         await fetch("https://wilt-attester.vercel.app/api/claimer/ticket", {
