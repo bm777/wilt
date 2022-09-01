@@ -1,0 +1,58 @@
+diff --git a/node_modules/metro-react-native-babel-preset/src/configs/lazy-imports.js b/node_modules/metro-react-native-babel-preset/src/configs/lazy-imports.js
+index 0b1c285..a5ec95f 100644
+--- a/node_modules/metro-react-native-babel-preset/src/configs/lazy-imports.js
++++ b/node_modules/metro-react-native-babel-preset/src/configs/lazy-imports.js
+@@ -22,7 +22,6 @@ module.exports = new Set([
+   "ImageBackground",
+   "InputAccessoryView",
+   "KeyboardAvoidingView",
+-  "MaskedViewIOS",
+   "Modal",
+   "Pressable",
+   "ProgressBarAndroid",
+@@ -83,9 +82,5 @@ module.exports = new Set([
+   "NativeModules",
+   "Platform",
+   "processColor",
+-  "requireNativeComponent", // Prop Types
+-  "DeprecatedColorPropType",
+-  "DeprecatedEdgeInsetsPropType",
+-  "DeprecatedPointPropType",
+-  "DeprecatedViewPropTypes",
++  "requireNativeComponent",
+ ]);
+diff --git a/node_modules/metro-react-native-babel-preset/src/configs/main.js b/node_modules/metro-react-native-babel-preset/src/configs/main.js
+index 8c05035..341462f 100644
+--- a/node_modules/metro-react-native-babel-preset/src/configs/main.js
++++ b/node_modules/metro-react-native-babel-preset/src/configs/main.js
+@@ -47,9 +47,10 @@ const getPreset = (src, options) => {
+ 
+   if (!options.useTransformReactJSXExperimental) {
+     extraPlugins.push([
+-      require("@babel/plugin-transform-react-jsx", {
+-        useBuiltIns: true,
+-      }),
++      require("@babel/plugin-transform-react-jsx"),
++      {
++        runtime: "automatic",
++      },
+     ]);
+   }
+ 
+@@ -135,11 +136,11 @@ const getPreset = (src, options) => {
+     extraPlugins.push([require("@babel/plugin-transform-async-to-generator")]);
+   }
+ 
+-  if (!isHermes && (isNull || src.indexOf("**") !== -1)) {
+-    extraPlugins.push([
+-      require("@babel/plugin-transform-exponentiation-operator"),
+-    ]);
+-  }
++  // if (!isHermes && (isNull || src.indexOf("**") !== -1)) {
++  //   extraPlugins.push([
++  //     require("@babel/plugin-transform-exponentiation-operator"),
++  //   ]);
++  // }
+ 
+   if (
+     isNull ||

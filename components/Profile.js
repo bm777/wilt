@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Button, Text, TextInput, View } from 'react-native'
 import { TailwindProvider } from 'tailwindcss-react-native';
-
+import {init, Did} from "@kiltprotocol/sdk-js"
 
 const  Profile = ({ navigation }) => {
     // text
