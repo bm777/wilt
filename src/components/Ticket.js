@@ -8,15 +8,15 @@ const Ticket = ({ navigation, route }) => {
   let setting
   let qr_text
   let qr_bool
-  let _name; 
-  let _age
-  let _mnemonic
+  let _name = "" 
+  let _age = 0
+  let _mnemonic = []
   try {
     // setting = JSON.stringify(route).includes(`"setting":"done"`)
     setting = pull("@mnemonic") == null ? false :  true
-    _name = route.params.params.name
-    _age = route.params.params.age
-    _mnemonic = pull("@mnemonic") == null ? "" : pull("@mnemonic")
+    // _name = pull("@name") == null ? "" : pull("@name")
+    // _age = pull("@age") == null ? "" : pull("@age")
+    // _mnemonic = pull("@mnemonic") == null ? "" : pull("@mnemonic")
   } catch {
     setting = false
     _name = ""
@@ -26,9 +26,7 @@ const Ticket = ({ navigation, route }) => {
   try {
     qr_bool = JSON.stringify(route).includes(`"setting":"done","qr":"`)
     qr_text = route.params.params.qr
-    _name = route.params.params.name
-    _age = route.params.params.age
-    _mnemonic = route.params.params.mnemonic
+    // _mnemonic = pull("@mnemonic") == null ? "" : pull("@mnemonic")
   } catch {
     qr_text = ""
     qr_bool = false
@@ -39,8 +37,6 @@ const Ticket = ({ navigation, route }) => {
   // states --------------------------------------------------------------
   const [status, setStatus] = useState("No Ticket")
   const [explain, setExplain] = useState(_mnemonic)
-  // const [uname, setUname] = useState("")
-  // const [age, setAge] = useState("")
   const [todo, setTodo] = useState("Request Ticket")
   const [w3n, setW3n] = useState("")
   const [did, setDid] = useState("")
@@ -48,10 +44,7 @@ const Ticket = ({ navigation, route }) => {
 
   // -------------------------------------------------------------------
   // useEffect(() => {
-  //   const d = qr_text.split("/")[4]
-  //   if (d) {
-  //     setStatus("")
-  //   }
+  //   const d = 
   // }, [])
 
   // handle

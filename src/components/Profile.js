@@ -38,10 +38,11 @@ const  Profile = ({ navigation }) => {
             }])
             process.exit(1)
         })
-        .then(({lightDID, mnemonic}) => {
-            setMnemonic(mnemonic.split(" "))
+        .then(({lightDID, mnem}) => {
+            
+            setMnemonic(mnem.split(" "))
+            store("@mnemonic", mnem)
             setLightDID(lightDID)
-            store("@mnemonic", mnemonic)
             store("@lightdid", lightDID)
             store("@age", age)
             store("@name", name)
