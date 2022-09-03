@@ -1,7 +1,22 @@
-# kilt-react-native-template
+# Willt: Mobile Wallet
 
-A template for react native projects using KILT with Expo.
+RN project using KILT with Expo.
+[The Google Slide presentation](https://docs.google.com/presentation/d/1CE1cUaZrhcR6Rn8CNNq6eCEF_dSBy5L3BXkR80PbTkQ/edit?usp=sharing)
 
-## Metro React Native Patch
+# You can access the [Attester](https://github.com/bm777/wilt-attester.git)
 
-We introduced a patch to the metro react native bable preset to comment out a resolve of the `@babel/plugin-transform-exponentiation-operator`. If anyone knows a better solution for the preset please let us know.
+
+## Test
+
+- Instalation
+    ```
+    yarn
+    ```
+
+- Running on expo (make sure you loggend in with your expo account `expo login`)
+    ```
+    expo start
+    
+    # if you can't connect, try using tunnel
+    expo start --tunnel
+    ```
