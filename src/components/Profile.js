@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useState} from 'react';
-import { Button, Text, TextInput, View } from 'react-native'
-import { store } from './claimer/ticket';
+import { Button, Text, TextInput, View, Alert } from 'react-native'
+import { storeObject, storeString } from './claimer/ticket';
 import { generateLightDid } from './claimer/generateLightDid';
 
 const  Profile = ({ navigation }) => {
@@ -31,23 +31,29 @@ const  Profile = ({ navigation }) => {
     // handle Save button
     const handleSave= async () => {
         // actions to generate the mnemonic and the lightDID
-        generateLightDid()
-        .catch((e) => {
-            Alert.alert("Information", "Error while setting up your lightDID, please retry.", [{
+        try {
+            generateLightDid()
+            .catch((e) => {
+
+            })
+            .then(({lightDid, mnem}) => {
+                Alert.alert("Information", " -"+JSON.stringify(lightDid)+mnem, [{
+                    text: "YES"
+                }])
+                setMnemonic(mnem.split(" "))
+                storeString("@mnemonic", mnem)
+                setLightDID(lightDid)
+                storeObject("@lightdid", lightDID)
+                storeString("@age", age)
+                storeString("@name", name)
+                setIsSaved(true)
+            })
+            
+        } catch (error) {
+            Alert.alert("Information", "Error while setting up your lightDID, please retry." [{
                 text: "OK"
             }])
-            process.exit(1)
-        })
-        .then(({lightDID, mnem}) => {
-            
-            setMnemonic(mnem.split(" "))
-            store("@mnemonic", mnem)
-            setLightDID(lightDID)
-            store("@lightdid", lightDID)
-            store("@age", age)
-            store("@name", name)
-            setIsSaved(true)
-        })
+        }
     }
     const handleDone = () => {
         setLast(true)

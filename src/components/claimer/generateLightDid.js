@@ -11,8 +11,8 @@ export async function generateLightDid(){
 
     // secret and DID publick keys
     const keystore = new Kilt.Did.DemoKeystore()
-    const mnemonic = mnemonicGenerate()
-    const keys = await generateKeypairs(keystore, mnemonic)
+    const mnem = mnemonicGenerate()
+    const keys = await generateKeypairs(keystore, mnem)
 
     // the lightDID
     const lightDid = Kilt.Did.LightDidDetails.fromDetails({
@@ -22,10 +22,10 @@ export async function generateLightDid(){
             type: Kilt.VerificationKeyType.Sr25519
         }
     })
-
     return {
-        lightDid,
-        mnemonic
+        lightDid: lightDid,
+        mnem: mnem
+
     }
 }
 

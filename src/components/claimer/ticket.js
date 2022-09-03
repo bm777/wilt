@@ -1,23 +1,37 @@
 /* eslint-disable */
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export async function store(key, data) {
+/// getters
+export async function storeString(key, data) {
   try {
-    var d = data
-    if ((typeof data).toString() === "object") {
-        d = JSON.stringify(data)
-    }
-    await AsyncStorage.setItem(key, d)
-  } catch (e) {
-    return null
+    await AsyncStorage.setItem(key, value)
+  } catch(e) {
+    // save error
   }
 }
 
-export async function pull(key) {
+export async function storeObject(key, data) {
   try {
-    const jvalue = await AsyncStorage.getItem(key)
-    return jvalue != null ? JSON.parse(jvalue) : null
-  } catch (e) {
-    return null
+    const jsonValue = JSON.stringify(value)
+    await AsyncStorage.setItem(key, jsonValue)
+  } catch(e) {
+    // save error
+  }
+}
+
+export async function pullString(key) {
+    try {
+      return await AsyncStorage.getItem(key)
+    } catch(e) {
+      // read error
+    }
+}
+
+export async function pullObject(key) {
+  try {
+    const jsonValue = await AsyncStorage.getItem(key)
+    return jsonValue != null ? JSON.parse(jsonValue) : null
+  } catch(e) {
+    // read error
   }
 }

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Button, Text, View } from 'react-native'
 import React, {useState, useEffect} from 'react';
-import { store, pull } from './claimer/ticket';
+import { storeObject, storeString, pullObject , pullString } from './claimer/ticket';
 
 
 const Ticket = ({ navigation, route }) => {
@@ -13,10 +13,8 @@ const Ticket = ({ navigation, route }) => {
   let _mnemonic = []
   try {
     // setting = JSON.stringify(route).includes(`"setting":"done"`)
-    setting = pull("@mnemonic") == null ? false :  true
+    setting = pullString("@mnemonic") == null ? false :  true
     // _name = pull("@name") == null ? "" : pull("@name")
-    // _age = pull("@age") == null ? "" : pull("@age")
-    // _mnemonic = pull("@mnemonic") == null ? "" : pull("@mnemonic")
   } catch {
     setting = false
     _name = ""
@@ -26,7 +24,6 @@ const Ticket = ({ navigation, route }) => {
   try {
     qr_bool = JSON.stringify(route).includes(`"setting":"done","qr":"`)
     qr_text = route.params.params.qr
-    // _mnemonic = pull("@mnemonic") == null ? "" : pull("@mnemonic")
   } catch {
     qr_text = ""
     qr_bool = false
@@ -36,7 +33,7 @@ const Ticket = ({ navigation, route }) => {
   
   // states --------------------------------------------------------------
   const [status, setStatus] = useState("No Ticket")
-  const [explain, setExplain] = useState(_mnemonic)
+  const [explain, setExplain] = useState()
   const [todo, setTodo] = useState("Request Ticket")
   const [w3n, setW3n] = useState("")
   const [did, setDid] = useState("")
