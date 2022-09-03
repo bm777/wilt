@@ -1,7 +1,8 @@
 /* eslint-disable */
 import React, {useState} from 'react';
-import { Button, Text, TextInput, View } from 'react-native'
-import {init, Did} from "@kiltprotocol/sdk-js"
+import { Button, Text, TextInput, View, Alert } from 'react-native'
+import { store, pull } from './claimer/ticket';
+import { generateLightDid } from './claimer/generateLightDid';
 
 const  Profile = ({ navigation }) => {
     // text
@@ -24,16 +25,25 @@ const  Profile = ({ navigation }) => {
     const [age, setAge] = useState(0)
     const [isSaved, setIsSaved] = useState(false)
     const [last, setLast] = useState(false)
-    const [log, setLog] = useState("")
+    const [lightDID, setLightDID] = useState("")
     const [mnemonic, setMnemonic] = useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
 
     // handle Save button
     const handleSave= async () => {
         // actions to generate the mnemonic and the lightDID
-        const response = await fetch("https://wilt-attester.vercel.app/api/claimer/mnemonic")
-        const resp = await response.json()
-        setMnemonic(resp.response)
-        setIsSaved(true)
+        generateLightDid()
+        .catch((e) => {
+            Alert.alert("Information", "Error while setting up your lightDID, please retry.", [{
+                text: "OK"
+            }])
+            process.exit(1)
+        })
+        .then(({lightDID, mnemonic}) => {
+            setMnemonic(mnemonic)
+            setLightDID(lightDID)
+            setIsSaved(true)
+        })
+        
     }
     const handleDone = () => {
         setLast(true)
