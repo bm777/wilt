@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, {useState} from 'react';
-import { Button, Text, TextInput, View, Alert } from 'react-native'
-import { store, pull } from './claimer/ticket';
+import { Button, Text, TextInput, View } from 'react-native'
+import { store } from './claimer/ticket';
 import { generateLightDid } from './claimer/generateLightDid';
 
 const  Profile = ({ navigation }) => {
@@ -39,11 +39,14 @@ const  Profile = ({ navigation }) => {
             process.exit(1)
         })
         .then(({lightDID, mnemonic}) => {
-            setMnemonic(mnemonic)
+            setMnemonic(mnemonic.split(" "))
             setLightDID(lightDID)
+            store("@mnemonic", mnemonic)
+            store("@lightdid", lightDID)
+            store("@age", age)
+            store("@name", name)
             setIsSaved(true)
         })
-        
     }
     const handleDone = () => {
         setLast(true)

@@ -1,6 +1,7 @@
 /* eslint-disable */
 import { Button, Text, View } from 'react-native'
 import React, {useState, useEffect} from 'react';
+import { store, pull } from './claimer/ticket';
 
 
 const Ticket = ({ navigation, route }) => {
@@ -11,10 +12,11 @@ const Ticket = ({ navigation, route }) => {
   let _age
   let _mnemonic
   try {
-    setting = JSON.stringify(route).includes(`"setting":"done"`)
+    // setting = JSON.stringify(route).includes(`"setting":"done"`)
+    setting = pull("@mnemonic") == null ? false :  true
     _name = route.params.params.name
     _age = route.params.params.age
-    _mnemonic = route.params.params.mnemonic
+    _mnemonic = pull("@mnemonic") == null ? "" : pull("@mnemonic")
   } catch {
     setting = false
     _name = ""
@@ -36,7 +38,7 @@ const Ticket = ({ navigation, route }) => {
   
   // states --------------------------------------------------------------
   const [status, setStatus] = useState("No Ticket")
-  const [explain, setExplain] = useState("")
+  const [explain, setExplain] = useState(_mnemonic)
   // const [uname, setUname] = useState("")
   // const [age, setAge] = useState("")
   const [todo, setTodo] = useState("Request Ticket")

@@ -1,9 +1,10 @@
+/* eslint-disable */
 import * as Kilt from "@kiltprotocol/sdk-js"
 import { mnemonicGenerate } from "@polkadot/util-crypto"
 
 import { generateKeypairs } from "./generateKeypairs.js"
 
-import env from "../attester/env.json" assert {type: "json"}
+import env from "./env.json"
 
 export async function generateLightDid(){
     await Kilt.init({address: env.WSS_ADDRESS})

@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as Kilt from "@kiltprotocol/sdk-js"
 
 export async function generateKeypairs(keystore, mnemonic){
