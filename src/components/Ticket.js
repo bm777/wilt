@@ -1,37 +1,24 @@
 /* eslint-disable */
 import { Button, Text, View } from 'react-native'
 import React, {useState, useEffect} from 'react';
-import { storeObject, storeString, pullObject , pullString } from './claimer/ticket';
+import { useFocusEffect } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Ticket = ({ navigation, route }) => {
-  let setting
+const Ticket =  ({ navigation, route }) => {
+
   let qr_text
   let qr_bool
   let _name = "" 
   let _age = 0
   let _mnemonic = []
-  try {
-    // setting = JSON.stringify(route).includes(`"setting":"done"`)
-    setting = pullString("@mnemonic") == null ? false :  true
-    // _name = pull("@name") == null ? "" : pull("@name")
-  } catch {
-    setting = false
-    _name = ""
-    _age = 0
-    _mnemonic = []
-  }
-  try {
-    qr_bool = JSON.stringify(route).includes(`"setting":"done","qr":"`)
-    qr_text = route.params.params.qr
-  } catch {
-    qr_text = ""
-    qr_bool = false
-  }
+  // setting = JSON.stringify(route).includes(`"setting":"done"`)
+
 
   if (qr_bool === true) setting = true
   
   // states --------------------------------------------------------------
+  const [setting, setSetting] = useState(false)
   const [status, setStatus] = useState("No Ticket")
   const [explain, setExplain] = useState()
   const [todo, setTodo] = useState("Request Ticket")
@@ -40,9 +27,46 @@ const Ticket = ({ navigation, route }) => {
   const [_hash, setHash] = useState("")
 
   // -------------------------------------------------------------------
-  // useEffect(() => {
-  //   const d = 
-  // }, [])
+
+
+  /////
+useFocusEffect(
+  React.useCallback(() => {
+    // is focused
+    console.log("sscreen focused")
+
+    const setup = async () => {
+      try {        
+        const _s = await AsyncStorage.getItem("@mnemonic")
+        setSetting(_s === null ? false :  true)
+      } catch (error) {console.log(error)}
+    }
+
+    const fetchMnemonic = async () => {
+      try {
+        const savedMnemonic = await AsyncStorage.getItem("@mnemonic")
+         setExplain(savedMnemonic)
+       } catch (error) {}
+    }
+
+    /////////
+    setup()
+    fetchMnemonic()
+
+    return () => {
+      // is unfocesed: come from another screen
+      console.log("sscreen unfocused")
+      const setup = async () => {
+        try {        
+          const _s = await AsyncStorage.getItem("@mnemonic")
+          setSetting(_s === null ? false :  true)
+        } catch (error) {console.log(error)}
+      }
+
+      setup()
+    }
+  }, [])
+)
 
   // handle
   const handleStart = () => {
@@ -151,7 +175,7 @@ const Ticket = ({ navigation, route }) => {
           <View className="flex-1 items-center">
             <View className="w-3/4 h-36 bg-indigo-600 rounded-xl mt-20 items-center justify-center">
                 <Text className="font-medium text-6xl text-white">
-                  WILT
+                  WILT-{explain}
                 </Text>
             </View>
             <Text className="font-medium text-4xl mt-10">

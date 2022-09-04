@@ -1,7 +1,7 @@
 /* eslint-disable */
-import React, {useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useState, useEffect} from 'react';
 import { Button, Text, TextInput, View, Alert } from 'react-native'
-import { storeObject, storeString } from './claimer/ticket';
 import { generateLightDid } from './claimer/generateLightDid';
 
 const  Profile = ({ navigation }) => {
@@ -28,6 +28,21 @@ const  Profile = ({ navigation }) => {
     const [lightDID, setLightDID] = useState("")
     const [mnemonic, setMnemonic] = useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
 
+    ///
+    useEffect(() => {
+        const setup = async () => {
+            console.log("inside setup")
+            try {
+                const setting = await AsyncStorage.getItem("@mnemonic")
+                const _ = setting === null ? false : true
+                setIsSaved(_)
+            } catch (error) {console.log(error)}
+        }
+
+        //
+        setup()
+    }, [])
+
     // handle Save button
     const handleSave= async () => {
         // actions to generate the mnemonic and the lightDID
@@ -37,15 +52,15 @@ const  Profile = ({ navigation }) => {
 
             })
             .then(({lightDid, mnem}) => {
-                Alert.alert("Information", " -"+JSON.stringify(lightDid)+mnem, [{
+                Alert.alert("Information", "Make sure to save these sequence of word.", [{
                     text: "YES"
                 }])
                 setMnemonic(mnem.split(" "))
-                storeString("@mnemonic", mnem)
-                setLightDID(lightDid)
-                storeObject("@lightdid", lightDID)
-                storeString("@age", age)
-                storeString("@name", name)
+                AsyncStorage.setItem("@mnemonic", mnem)
+                // setLightDID(lightDid)
+                // storeObject("@lightdid", lightDID)
+                // storeString("@age", age)
+                // storeString("@name", name)
                 setIsSaved(true)
             })
             
@@ -58,16 +73,28 @@ const  Profile = ({ navigation }) => {
     const handleDone = () => {
         setLast(true)
     }
+    const handleReset = async () => {
+        try {
+            var setting = await AsyncStorage.getItem("@mnemonic")
+            console.log(setting)
+            await AsyncStorage.clear()
+            setting = await AsyncStorage.getItem("@mnemonic")
+            console.log("+"+setting)
+        } catch (error) {console.log(error)}
+    }
     const handleLast = () => {
-        navigation.navigate("Ticket", {
-            params: {setting: "done", name: name, age: age, mnemonic}
-        })
+        navigation.navigate("Ticket", 
+        // {
+        //     params: {setting: "done", name: name, age: age, mnemonic}
+        // }
+        )
     }
 
 
 
     return (
         <View className="flex-1 items-center mt-10">
+            <Text>-{isSaved}</Text>
             <Text className="font-bold text-3xl">
                 {
                     (!isSaved)
@@ -87,7 +114,9 @@ const  Profile = ({ navigation }) => {
                         {(last) ? td.last.sub : td.second.sub}
                     </Text>
                 }
-            </Text>
+            </Text> 
+            <Button className="text-slate-600 mt-5 mx-10" title="reset" onPress={handleReset}>
+            </Button>
 
             
 
@@ -107,7 +136,7 @@ const  Profile = ({ navigation }) => {
                         value={name}
                     />
                     <Text className="self-end text-gray-400 mx-10 ">e.g. John Doe </Text>
-
+                    
                     {/* AGE INPUT */}
                     <Text className="self-start text-indigo-500 mt-5 mx-10 text-base">Age </Text>
                     <TextInput className="h-14 w-4/5 rounded bg-white text-indigo-800 text-lg font-medium pb-4 pl-2 focus:border-2 focus:border-slate-200" 
@@ -153,7 +182,6 @@ const  Profile = ({ navigation }) => {
                     }
                 </View>
             }
-
 
         </View>
     )
