@@ -37,6 +37,7 @@ const  Profile = ({ navigation }) => {
                 try {
                     const setting = await AsyncStorage.getItem("@mnemonic")
                     const _ = setting === null ? false : true
+                    if(_) setMnemonic(setting.split(" "))
                     setIsSaved(_)
                 } catch (error) {console.log(error)}
             }
@@ -49,11 +50,18 @@ const  Profile = ({ navigation }) => {
                     try {
                         const setting = await AsyncStorage.getItem("@mnemonic")
                         const _ = setting === null ? false : true
-                        setIsSaved(!_)
-                        setLast(_)
+                        
+                        if (_) {
+                            setLast(true)
+                            setIsSaved(false)
+                        }else{
+                            setLast(false)
+                            setIsSaved(false)
+                        }
+                        
+                        
                     } catch (error) {console.log(error)}
                 }
-    
                 setup()
             }
         }, [])
@@ -70,12 +78,11 @@ const  Profile = ({ navigation }) => {
                 }])
             })
             .then(({lightDid, mnem}) => {
-                
                 setMnemonic(mnem.split(" "))
                 AsyncStorage.setItem("@mnemonic", mnem)
                 AsyncStorage.setItem("@lightdid", JSON.stringify(lightDid))
                 AsyncStorage.setItem("@name", name)
-                AsyncStorage.setItem("@age", age)
+                AsyncStorage.setItem("@age", age.toString())
                 setIsSaved(true)
                 Alert.alert("Information", "Make sure to save these sequence of word.", [{
                     text: "YES"
