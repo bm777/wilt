@@ -37,8 +37,15 @@ const  Profile = ({ navigation }) => {
                 try {
                     const setting = await AsyncStorage.getItem("@mnemonic")
                     const _ = setting === null ? false : true
-                    if(_) setMnemonic(setting.split(" "))
-                    setIsSaved(_)
+
+                    if (_){
+                        setMnemonic(setting.split(" "))
+                        setIsSaved(true)
+                        setLast(true)
+                    }else{
+                        setIsSaved(false)
+                        // setLast(false)
+                    }
                 } catch (error) {console.log(error)}
             }
 
@@ -52,8 +59,8 @@ const  Profile = ({ navigation }) => {
                         const _ = setting === null ? false : true
                         
                         if (_) {
+                            setIsSaved(true)
                             setLast(true)
-                            setIsSaved(false)
                         }else{
                             setLast(false)
                             setIsSaved(false)
@@ -188,7 +195,7 @@ const  Profile = ({ navigation }) => {
                         (last)
                         ?
                         <View className=" w-full flex items-center h-full">
-                            <View className="w-4/5 h-14 px-10 bg-teal-800 rounded-full flex justify-center top-3/4 ">
+                            <View className="w-4/5 h-14 px-10 bg-teal-800 rounded-full flex justify-center top-2/4 ">
                                 <Button className=" text-center text-lg font-bold" title='Done' color={"white"} onPress={handleLast}/>
                             </View>
 

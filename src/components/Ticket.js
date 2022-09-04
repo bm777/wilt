@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Button, Text, View } from 'react-native'
+import { Button, Text, View, Alert, TouchableOpacity } from 'react-native'
 import React, {useState, useEffect} from 'react';
 import { useFocusEffect } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -9,8 +9,6 @@ const Ticket =  ({ navigation, route }) => {
 
   let qr_text
   let qr_bool
-  let _name = "" 
-  let _age = 0
   let _mnemonic = []
   // setting = JSON.stringify(route).includes(`"setting":"done"`)
 
@@ -21,11 +19,16 @@ const Ticket =  ({ navigation, route }) => {
   const [setting, setSetting] = useState(false)
   const [status, setStatus] = useState("No Ticket")
   const [explain, setExplain] = useState()
+  //
+  const [age, setAge] = useState()
+  const [name, setName] = useState("")
+  // 
   const [mnemonic, setMnemonic] = useState("")
   const [todo, setTodo] = useState("Request Ticket")
-  const [w3n, setW3n] = useState("")
-  const [did, setDid] = useState("")
-  const [_hash, setHash] = useState("")
+  const [w3n, setW3n] = useState("None")
+  const [did, setDid] = useState("None")
+  const [_did, set_Did] = useState("")
+  const [_hash, setHash] = useState("None")
 
   // -------------------------------------------------------------------
 
@@ -41,7 +44,14 @@ useFocusEffect(
         setSetting(_s === null ? false :  true)
       } catch (error) {console.log(error)}
     }
-
+    const fetchUser = async () => {
+      try {
+        const savedAge = await AsyncStorage.getItem("@age")
+        const savedName = await AsyncStorage.getItem("@name")
+         setAge(savedAge)
+         setAge(savedName)
+       } catch (error) {}
+    }
     const fetchMnemonic = async () => {
       try {
         const savedMnemonic = await AsyncStorage.getItem("@mnemonic")
@@ -51,7 +61,10 @@ useFocusEffect(
     const fetchDid = async () => {
       try {
         const savedDid = await AsyncStorage.getItem("@lightdid")
-         setExplain(savedDid+"-")
+        setExplain(savedDid)
+        set_Did(JSON.parse(savedDid))
+        if(savedDid.length >= 10)
+          setDid(savedDid.slice(0, 16)+"...}")
        } catch (error) {}
     }
 
@@ -106,11 +119,16 @@ useFocusEffect(
       else if (status === "Ticket Avalaible") {
         // actions
         
-        
         setTodo("Ticket Avalaible") //Check Result
         // setExplain("Your Ticket is ready")
         setStatus("Ticket verified") // Verifying the Ticket
       }
+  }
+  // showDid()
+  const showDid = () => {
+    Alert.alert("lightDid", _did.uri, [{
+      text: "CLOSE"
+  }])
   }
 
     return (
@@ -135,12 +153,15 @@ useFocusEffect(
                       </Text>
                   </View>
                   <View className="h-5/6 w-32 bg-[#861F64] grow mx-3 rounded-lg">
-                      <Text className="font-medium text-lg text-[#D28BC3] mt-1 text-left ml-3">
-                        DID 
-                      </Text>
-                      <Text className="font-semibold text-2xl text-[#DBD3D0] mt-1 text-left ml-3">
-                        {did}
-                      </Text>
+                    <TouchableOpacity onPress={showDid}>
+                        <Text className="font-medium text-lg text-[#D28BC3] mt-1 text-left ml-3">
+                          DID 
+                        </Text>
+                        <Text className="font-semibold text-2xl text-[#DBD3D0] mt-1 text-left ml-3">
+                          {did}
+                        </Text>
+                    </TouchableOpacity>
+                      
                   </View>
                 </View>
 

@@ -4,7 +4,6 @@ RN project using KILT with Expo.
 
 # You can access the [Attester](https://github.com/bm777/wilt-attester.git)
 
-
 ## Test
 
 - Instalation
