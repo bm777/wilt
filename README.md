@@ -1,7 +1,6 @@
 # Willt: Mobile Wallet
 
 RN project using KILT with Expo.
-[The Google Slide presentation](https://docs.google.com/presentation/d/1CE1cUaZrhcR6Rn8CNNq6eCEF_dSBy5L3BXkR80PbTkQ/edit?usp=sharing)
 
 # You can access the [Attester](https://github.com/bm777/wilt-attester.git)
 
