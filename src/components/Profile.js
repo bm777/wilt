@@ -68,9 +68,7 @@ const  Profile = ({ navigation }) => {
 
             })
             .then(({lightDid, mnem}) => {
-                Alert.alert("Information", "Make sure to save these sequence of word.", [{
-                    text: "YES"
-                }])
+                
                 setMnemonic(mnem.split(" "))
                 AsyncStorage.setItem("@mnemonic", mnem)
                 // setLightDID(lightDid)
@@ -78,6 +76,9 @@ const  Profile = ({ navigation }) => {
                 // storeString("@age", age)
                 // storeString("@name", name)
                 setIsSaved(true)
+                Alert.alert("Information", "Make sure to save these sequence of word.", [{
+                    text: "YES"
+                }])
             })
             
         } catch (error) {
