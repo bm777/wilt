@@ -21,20 +21,19 @@ const  Profile = ({ navigation }) => {
             "sub": "Account is set up."
         }
     }
-    // state
+    // states
     const [name, setName] = useState("")
     const [age, setAge] = useState(0)
     const [isSaved, setIsSaved] = useState(false)
     const [last, setLast] = useState(false)
-    const [lightDID, setLightDID] = useState("")
-    const [mnemonic, setMnemonic] = useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
+    const [mnemonic, setMnemonic] = useState(["", "", "", "", "", "", "", "", "", "", "", "",])
 
     ///
     useFocusEffect(
         React.useCallback(() => {
             // isFocused
             const setup = async () => {
-                console.log("Focused")
+                // console.log("Focused")
                 try {
                     const setting = await AsyncStorage.getItem("@mnemonic")
                     const _ = setting === null ? false : true
@@ -46,11 +45,12 @@ const  Profile = ({ navigation }) => {
             return () => {
                 // is Unfocsed
                 const setup = async () => {
-                    console.log("unFocused")
+                    // console.log("unFocused")
                     try {
                         const setting = await AsyncStorage.getItem("@mnemonic")
                         const _ = setting === null ? false : true
-                        setIsSaved(_)
+                        setIsSaved(!_)
+                        setLast(_)
                     } catch (error) {console.log(error)}
                 }
     
@@ -65,16 +65,17 @@ const  Profile = ({ navigation }) => {
         try {
             generateLightDid()
             .catch((e) => {
-
+                Alert.alert("Error", "We got an issue while creating your account, please retry later.", [{
+                    text: "Ok"
+                }])
             })
             .then(({lightDid, mnem}) => {
                 
                 setMnemonic(mnem.split(" "))
                 AsyncStorage.setItem("@mnemonic", mnem)
-                // setLightDID(lightDid)
-                // storeObject("@lightdid", lightDID)
-                // storeString("@age", age)
-                // storeString("@name", name)
+                AsyncStorage.setItem("@lightdid", JSON.stringify(lightDid))
+                AsyncStorage.setItem("@name", name)
+                AsyncStorage.setItem("@age", age)
                 setIsSaved(true)
                 Alert.alert("Information", "Make sure to save these sequence of word.", [{
                     text: "YES"
@@ -82,7 +83,7 @@ const  Profile = ({ navigation }) => {
             })
             
         } catch (error) {
-            Alert.alert("Information", "Error while setting up your lightDID, please retry." [{
+            Alert.alert("Error", "Error while setting up your lightDID, please retry." [{
                 text: "OK"
             }])
         }

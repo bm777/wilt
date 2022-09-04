@@ -21,6 +21,7 @@ const Ticket =  ({ navigation, route }) => {
   const [setting, setSetting] = useState(false)
   const [status, setStatus] = useState("No Ticket")
   const [explain, setExplain] = useState()
+  const [mnemonic, setMnemonic] = useState("")
   const [todo, setTodo] = useState("Request Ticket")
   const [w3n, setW3n] = useState("")
   const [did, setDid] = useState("")
@@ -35,7 +36,7 @@ useFocusEffect(
     // is focused
 
     const setup = async () => {
-      try {        
+      try {
         const _s = await AsyncStorage.getItem("@mnemonic")
         setSetting(_s === null ? false :  true)
       } catch (error) {console.log(error)}
@@ -44,13 +45,20 @@ useFocusEffect(
     const fetchMnemonic = async () => {
       try {
         const savedMnemonic = await AsyncStorage.getItem("@mnemonic")
-         setExplain(savedMnemonic)
+         setMnemonic(savedMnemonic)
+       } catch (error) {}
+    }
+    const fetchDid = async () => {
+      try {
+        const savedDid = await AsyncStorage.getItem("@lightdid")
+         setExplain(savedDid+"-")
        } catch (error) {}
     }
 
     /////////
     setup()
     fetchMnemonic()
+    fetchDid()
 
     return () => {
       // is unfocesed: come from another screen
