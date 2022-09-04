@@ -33,7 +33,6 @@ const Ticket =  ({ navigation, route }) => {
 useFocusEffect(
   React.useCallback(() => {
     // is focused
-    console.log("sscreen focused")
 
     const setup = async () => {
       try {        
@@ -55,7 +54,7 @@ useFocusEffect(
 
     return () => {
       // is unfocesed: come from another screen
-      console.log("sscreen unfocused")
+      // console.log("sscreen unfocused")
       const setup = async () => {
         try {        
           const _s = await AsyncStorage.getItem("@mnemonic")

@@ -2,7 +2,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
 import { Button, Text, TextInput, View, Alert } from 'react-native'
-import { generateLightDid } from './claimer/generateLightDid';
+import { useFocusEffect } from '@react-navigation/native'
+import { generateLightDid } from './claimer/generateLightDid'
 
 const  Profile = ({ navigation }) => {
     // text
@@ -29,19 +30,34 @@ const  Profile = ({ navigation }) => {
     const [mnemonic, setMnemonic] = useState(["start", "", "", "", "", "", "", "", "", "", "", "end",])
 
     ///
-    useEffect(() => {
-        const setup = async () => {
-            console.log("inside setup")
-            try {
-                const setting = await AsyncStorage.getItem("@mnemonic")
-                const _ = setting === null ? false : true
-                setIsSaved(_)
-            } catch (error) {console.log(error)}
-        }
+    useFocusEffect(
+        React.useCallback(() => {
+            // isFocused
+            const setup = async () => {
+                console.log("Focused")
+                try {
+                    const setting = await AsyncStorage.getItem("@mnemonic")
+                    const _ = setting === null ? false : true
+                    setIsSaved(_)
+                } catch (error) {console.log(error)}
+            }
 
-        //
-        setup()
-    }, [])
+            setup()
+            return () => {
+                // is Unfocsed
+                const setup = async () => {
+                    console.log("unFocused")
+                    try {
+                        const setting = await AsyncStorage.getItem("@mnemonic")
+                        const _ = setting === null ? false : true
+                        setIsSaved(_)
+                    } catch (error) {console.log(error)}
+                }
+    
+                setup()
+            }
+        }, [])
+    )
 
     // handle Save button
     const handleSave= async () => {
@@ -80,6 +96,7 @@ const  Profile = ({ navigation }) => {
             await AsyncStorage.clear()
             setting = await AsyncStorage.getItem("@mnemonic")
             console.log("+"+setting)
+            setIsSaved(false)
         } catch (error) {console.log(error)}
     }
     const handleLast = () => {
