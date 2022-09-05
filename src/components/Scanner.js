@@ -12,7 +12,9 @@ export default function Scanner({ navigation, route }) {
 
 let _
   try {
-      _ = JSON.stringify(route).includes(`"current":"`)
+    const isAttester = JSON.stringify(route).includes(JSON.stringify({params: {current: "attester"}}))
+    const isVerifier = JSON.stringify(route).includes(JSON.stringify({params: {current: "verifier"}}))
+      _ = isAttester || isVerifier
   } catch {
     _ = false
   }
