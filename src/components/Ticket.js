@@ -16,13 +16,13 @@ const Ticket =  ({ navigation, route }) => {
   const [name, setName] = useState("")
   // 
   const [mnemonic, setMnemonic] = useState("")
-  const [todo, setTodo] = useState("Request Ticket")
+  const [todo, setTodo] = useState("Scan attester")
   const [w3n, setW3n] = useState("None")
   const [did, setDid] = useState("None")
   const [_did, set_Did] = useState("")
   const [_hash, setHash] = useState("None")
   const [qr, setQr] = useState("")
-  // const [action, setAction] = useState("")
+  const [ts, setTs] = useState("")
 
   // -------------------------------------------------------------------
   let _qr
@@ -50,7 +50,7 @@ const Ticket =  ({ navigation, route }) => {
           const savedTicket = await AsyncStorage.getItem("@ticket")
           setAge(savedAge)
           setName(savedName)
-          setName(savedTicket)
+          setTs(savedTicket)
         } catch (error) {}
       }
       const fetchMnemonic = async () => {
@@ -73,7 +73,6 @@ const Ticket =  ({ navigation, route }) => {
       fetchMnemonic()
       fetchDid()
       fetchUser()
-      console.log("on focus",_qr)
       // interactKilt()
       
 
@@ -108,34 +107,29 @@ const Ticket =  ({ navigation, route }) => {
     navigation.navigate("Profile")
   }
   const handleTicket = async () => {
+      console.log("on handle",_qr, ts, name, age)
       if (status === "No Ticket") {
-        // actions
-        navigation.navigate("Scanner", {
-          params: {current: "attester" } // verifier
-        })
-
-        console.log("on handle",_qr)
-        // await fetch("https://wilt-attester.vercel.app/api/claimer/ticket", {
-        //   method: 'POST',
-        //   headers: {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'application/json; charset=utf-8'
-        //   },
-        //   body: JSON.stringify({"name": _name, "age": _age, "mnemonic": _mnemonic.join(' ')}),
-        // })
-        //   .then(response => response.json())
-        //   .then(data => setExplain(JSON.stringify(data)))
-        // setTodo("Verify") // Speed UP
-        // setExplain("Your ticket is ready, you need to verify it to access to the event.")
-        //Wait a while. If it the ticket is not available, click on Speed UP
-        // setStatus("Ticket Avalaible") // Ticket Claimed
+        if(todo === "Scan attester"){
+          setTodo("Request Ticket")
+          navigation.navigate("Scanner", {
+            params: {current: "attester" } // attester
+          })
+          
+        }else if(todo === "Request Ticket"){
+          setTodo("Scan verifier")
+          setStatus("Ticket Attested")
+        }
       }
-      else if (status === "Ticket Avalaible") {
-        // actions
-        
-        setTodo("Ticket Avalaible") //Check Result
-        // setExplain("Your Ticket is ready")
-        setStatus("Ticket verified") // Verifying the Ticket
+      else if (status === "Ticket attested") {
+        if(todo === "Scan verifier"){
+          navigation.navigate("Scanner", {
+            params: {current: "verifier" } // verifier
+          })
+          setTodo("Request Review")
+        }else if(todo === "Request Review"){
+          setTodo("Enjoy")
+          setStatus("Ticket Verified")
+        }
       }
   }
   // showDid()
