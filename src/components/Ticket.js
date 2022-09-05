@@ -120,12 +120,13 @@ const Ticket =  ({ navigation, route }) => {
           setStatus("Ticket Attested")
         }
       }
-      else if (status === "Ticket attested") {
+      else if (status === "Ticket Attested") {
         if(todo === "Scan verifier"){
+          setTodo("Request Review")
           navigation.navigate("Scanner", {
             params: {current: "verifier" } // verifier
           })
-          setTodo("Request Review")
+          
         }else if(todo === "Request Review"){
           setTodo("Enjoy")
           setStatus("Ticket Verified")
