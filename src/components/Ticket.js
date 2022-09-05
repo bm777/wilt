@@ -47,8 +47,10 @@ const Ticket =  ({ navigation, route }) => {
         try {
           const savedAge = await AsyncStorage.getItem("@age")
           const savedName = await AsyncStorage.getItem("@name")
+          const savedTicket = await AsyncStorage.getItem("@ticket")
           setAge(savedAge)
           setName(savedName)
+          setName(savedTicket)
         } catch (error) {}
       }
       const fetchMnemonic = async () => {
