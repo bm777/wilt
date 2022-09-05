@@ -90,6 +90,7 @@ const  Profile = ({ navigation }) => {
                 AsyncStorage.setItem("@lightdid", JSON.stringify(lightDid))
                 AsyncStorage.setItem("@name", name)
                 AsyncStorage.setItem("@age", age.toString())
+                AsyncStorage.setItem("@ticket", "None")
                 setIsSaved(true)
                 Alert.alert("Information", "Make sure to save these sequence of word.", [{
                     text: "YES"

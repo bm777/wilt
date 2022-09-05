@@ -1,14 +1,12 @@
 /* eslint-disable */
 import { Button, Text, View, Alert, TouchableOpacity } from 'react-native'
 import React, {useState, useEffect} from 'react';
-import { useFocusEffect } from '@react-navigation/native'
+import { useIsFocused, useFocusEffect } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const Ticket =  ({ navigation, route }) => {
-
-  let action
-  let _qr
+  
   // states --------------------------------------------------------------
   const [setting, setSetting] = useState(false)
   const [status, setStatus] = useState("No Ticket")
@@ -27,14 +25,11 @@ const Ticket =  ({ navigation, route }) => {
   // const [action, setAction] = useState("")
 
   // -------------------------------------------------------------------
-
+  let _qr
   try {
-
-    // setAction(route.params.params.setting)
-    action = route.params.params.setting
-    _qr = route.params.params.qr
+    _qr = route.params.qr
   } catch (error) {
-    // console.log(error)
+    console.log(error)
   }
 
   /////
@@ -45,7 +40,7 @@ const Ticket =  ({ navigation, route }) => {
       const setup = async () => {
         try {
           const _s = await AsyncStorage.getItem("@mnemonic")
-          setSetting(_s === null ? false :  true)
+          setSetting(_s === null ? false : true)
         } catch (error) {console.log(error)}
       }
       const fetchUser = async () => {
@@ -70,32 +65,37 @@ const Ticket =  ({ navigation, route }) => {
             setDid(savedDid.slice(0, 16)+"...\"}")
         } catch (error) {}
       }
-      /////////
-      // console.log("inside Focus"+JSON.stringify(route))
-      if (action === "attester"){
-        setExplain("attester==",action, _qr)
-      }else if (action === "verifier"){
-        setExplain("attester==",action,_qr)
-      }
-      
-
-      /////////
+      ////////
+      ////////
       setup()
       fetchMnemonic()
       fetchDid()
       fetchUser()
+      console.log("on focus",_qr)
+      // interactKilt()
+      
 
       return () => {
         // is unfocesed: come from another screen
-        // console.log("sscreen unfocused")
+        // console.log("sscreen unfocused"
+
         const setup = async () => {
           try {        
             const _s = await AsyncStorage.getItem("@mnemonic")
             setSetting(_s === null ? false :  true)
           } catch (error) {console.log(error)}
         }
+        const fetchQr = async () => {
+          try {
+            const savedQr = await AsyncStorage.getItem("@qr")
+            setQr(savedQr)
+          } catch (error) {}
+        }
+
 
         setup()
+        console.log("on unfocus",_qr)
+        // interactKilt()
       }
     }, [])
   )
@@ -111,7 +111,8 @@ const Ticket =  ({ navigation, route }) => {
         navigation.navigate("Scanner", {
           params: {current: "attester" } // verifier
         })
-        
+
+        console.log("on handle",_qr)
         // await fetch("https://wilt-attester.vercel.app/api/claimer/ticket", {
         //   method: 'POST',
         //   headers: {

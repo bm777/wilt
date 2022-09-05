@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function Scanner({ navigation, route }) {
@@ -30,13 +31,16 @@ let _
   }, [])
 
   // What happens when we scan the bar code
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setText(data)
 
     if(_ && text.split("/").length >= 4){
         const value = text.split("/")[4]
-        if(value === "attester" || value === "verifier")
-        navigation.navigate("Ticket", {params: {setting: value, qr: text}})
+        if(value === "attester" || value === "verifier"){
+
+          navigation.navigate("Ticket", {qr: text})
+        }
+        
     }
     
     
