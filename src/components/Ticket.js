@@ -7,14 +7,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Ticket =  ({ navigation, route }) => {
 
-  let qr_text
-  let qr_bool
-  let _mnemonic = []
-  // setting = JSON.stringify(route).includes(`"setting":"done"`)
-
-
-  if (qr_bool === true) setting = true
-  
+  let action
+  let _qr
   // states --------------------------------------------------------------
   const [setting, setSetting] = useState(false)
   const [status, setStatus] = useState("No Ticket")
@@ -29,92 +23,109 @@ const Ticket =  ({ navigation, route }) => {
   const [did, setDid] = useState("None")
   const [_did, set_Did] = useState("")
   const [_hash, setHash] = useState("None")
+  const [qr, setQr] = useState("")
+  // const [action, setAction] = useState("")
 
   // -------------------------------------------------------------------
 
+  try {
+
+    // setAction(route.params.params.setting)
+    action = route.params.params.setting
+    _qr = route.params.params.qr
+  } catch (error) {
+    // console.log(error)
+  }
 
   /////
-useFocusEffect(
-  React.useCallback(() => {
-    // is focused
+  useFocusEffect(
+    React.useCallback(() => {
+      // is focused
 
-    const setup = async () => {
-      try {
-        const _s = await AsyncStorage.getItem("@mnemonic")
-        setSetting(_s === null ? false :  true)
-      } catch (error) {console.log(error)}
-    }
-    const fetchUser = async () => {
-      try {
-        const savedAge = await AsyncStorage.getItem("@age")
-        const savedName = await AsyncStorage.getItem("@name")
-         setAge(savedAge)
-         setAge(savedName)
-       } catch (error) {}
-    }
-    const fetchMnemonic = async () => {
-      try {
-        const savedMnemonic = await AsyncStorage.getItem("@mnemonic")
-         setMnemonic(savedMnemonic)
-       } catch (error) {}
-    }
-    const fetchDid = async () => {
-      try {
-        const savedDid = await AsyncStorage.getItem("@lightdid")
-        setExplain(savedDid)
-        set_Did(JSON.parse(savedDid))
-        if(savedDid.length >= 10)
-          setDid(savedDid.slice(0, 16)+"...}")
-       } catch (error) {}
-    }
-
-    /////////
-    setup()
-    fetchMnemonic()
-    fetchDid()
-
-    return () => {
-      // is unfocesed: come from another screen
-      // console.log("sscreen unfocused")
       const setup = async () => {
-        try {        
+        try {
           const _s = await AsyncStorage.getItem("@mnemonic")
           setSetting(_s === null ? false :  true)
         } catch (error) {console.log(error)}
       }
+      const fetchUser = async () => {
+        try {
+          const savedAge = await AsyncStorage.getItem("@age")
+          const savedName = await AsyncStorage.getItem("@name")
+          setAge(savedAge)
+          setName(savedName)
+        } catch (error) {}
+      }
+      const fetchMnemonic = async () => {
+        try {
+          const savedMnemonic = await AsyncStorage.getItem("@mnemonic")
+          setMnemonic(savedMnemonic)
+        } catch (error) {}
+      }
+      const fetchDid = async () => {
+        try {
+          const savedDid = await AsyncStorage.getItem("@lightdid")
+          set_Did(JSON.parse(savedDid))
+          if(savedDid.length >= 10)
+            setDid(savedDid.slice(0, 16)+"...\"}")
+        } catch (error) {}
+      }
+      /////////
+      // console.log("inside Focus"+JSON.stringify(route))
+      if (action === "attester"){
+        setExplain("attester==",action, _qr)
+      }else if (action === "verifier"){
+        setExplain("attester==",action,_qr)
+      }
+      
 
+      /////////
       setup()
-    }
-  }, [])
-)
+      fetchMnemonic()
+      fetchDid()
+      fetchUser()
+
+      return () => {
+        // is unfocesed: come from another screen
+        // console.log("sscreen unfocused")
+        const setup = async () => {
+          try {        
+            const _s = await AsyncStorage.getItem("@mnemonic")
+            setSetting(_s === null ? false :  true)
+          } catch (error) {console.log(error)}
+        }
+
+        setup()
+      }
+    }, [])
+  )
 
   // handle
   const handleStart = () => {
     // navigation.navigate("Scanner")
     navigation.navigate("Profile")
   }
-  const handleSpeed = async () => {
+  const handleTicket = async () => {
       if (status === "No Ticket") {
         // actions
         navigation.navigate("Scanner", {
-          params: {current: setting ? "done": "", name: _name, age: _age, mnemonic: _mnemonic.join(' ')}
+          params: {current: "attester" } // verifier
         })
-        //
-        await fetch("https://wilt-attester.vercel.app/api/claimer/ticket", {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json; charset=utf-8'
-          },
-          body: JSON.stringify({"name": _name, "age": _age, "mnemonic": _mnemonic.join(' ')}),
-        })
-          .then(response => response.json())
-          .then(data => setExplain(JSON.stringify(data)))
-
-        setTodo("Verify") //Speed UP
+        
+        // await fetch("https://wilt-attester.vercel.app/api/claimer/ticket", {
+        //   method: 'POST',
+        //   headers: {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'application/json; charset=utf-8'
+        //   },
+        //   body: JSON.stringify({"name": _name, "age": _age, "mnemonic": _mnemonic.join(' ')}),
+        // })
+        //   .then(response => response.json())
+        //   .then(data => setExplain(JSON.stringify(data)))
+        // setTodo("Verify") // Speed UP
         // setExplain("Your ticket is ready, you need to verify it to access to the event.")
         //Wait a while. If it the ticket is not available, click on Speed UP
-        setStatus("Ticket Avalaible") // Ticket Claimed
+        // setStatus("Ticket Avalaible") // Ticket Claimed
       }
       else if (status === "Ticket Avalaible") {
         // actions
@@ -126,7 +137,7 @@ useFocusEffect(
   }
   // showDid()
   const showDid = () => {
-    Alert.alert("lightDid", _did.uri, [{
+    Alert.alert("lightDid URI", _did.uri, [{
       text: "CLOSE"
   }])
   }
@@ -193,7 +204,7 @@ useFocusEffect(
               </Text>
               <View className="w-full h-full mt-10 items-center">
                   <View className="w-11/12 h-16 bg-[#861F64] mt-10 rounded-lg justify-center ">
-                        <Button color="white" className="font-medium text-lg" title={todo} onPress={handleSpeed}>
+                        <Button color="white" className="font-medium text-lg" title={todo} onPress={handleTicket}>
                         </Button>
                   </View>
                     
@@ -203,7 +214,7 @@ useFocusEffect(
           <View className="flex-1 items-center">
             <View className="w-3/4 h-36 bg-indigo-600 rounded-xl mt-20 items-center justify-center">
                 <Text className="font-medium text-6xl text-white">
-                  WILT-{explain}
+                  WILT
                 </Text>
             </View>
             <Text className="font-medium text-4xl mt-10">

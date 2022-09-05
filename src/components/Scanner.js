@@ -9,15 +9,9 @@ export default function Scanner({ navigation, route }) {
   const [scanned, setScanned] = useState(false);
   const [text, setText] = useState("Please scan the Qr code");
 
-  let _
-  let _name
-  let _age
-  let _mnemonic
+let _
   try {
-      _ = JSON.stringify(route).includes(`"current":"done"`)
-      _name = route.params.params.name
-      _age = route.params.params.age
-      _mnemonic = route.params.params.mnemonic
+      _ = JSON.stringify(route).includes(`"current":"`)
   } catch {
     _ = false
   }
@@ -25,15 +19,15 @@ export default function Scanner({ navigation, route }) {
 
   const askForCameraPermission = () => {
     (async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === "granted");
+      const { status } = await BarCodeScanner.requestPermissionsAsync()
+      setHasPermission(status === "granted")
     })();
   };
 
   // Request Camera Permission
   useEffect(() => {
     askForCameraPermission();
-  }, []);
+  }, [])
 
   // What happens when we scan the bar code
   const handleBarCodeScanned = ({ type, data }) => {
@@ -42,7 +36,7 @@ export default function Scanner({ navigation, route }) {
     if(_ && text.split("/").length >= 4){
         const value = text.split("/")[4]
         if(value === "attester" || value === "verifier")
-        navigation.navigate("Ticket", {params: {setting: _ ? "done": "", qr: text}})
+        navigation.navigate("Ticket", {params: {setting: value, qr: text}})
     }
     
     
@@ -77,7 +71,7 @@ export default function Scanner({ navigation, route }) {
                 className="w-full h-5/6"
                 />
             </View>
-            <Text className="text-center text-lg mx-10"> - {_mnemonic}</Text>
+            <Text className="text-center text-lg mx-10"> {text} </Text>
         </View>
     
   );
