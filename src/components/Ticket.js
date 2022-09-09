@@ -1,7 +1,8 @@
 /* eslint-disable */
 import { Button, Text, View, Alert, TouchableOpacity } from 'react-native'
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { useIsFocused, useFocusEffect } from '@react-navigation/native'
+import { generateRequest } from './claimer/generateRequest.js'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -73,12 +74,11 @@ const Ticket =  ({ navigation, route }) => {
       fetchMnemonic()
       fetchDid()
       fetchUser()
-      // interactKilt()
+
       
 
       return () => {
         // is unfocesed: come from another screen
-        // console.log("sscreen unfocused"
 
         const setup = async () => {
           try {        
@@ -86,16 +86,9 @@ const Ticket =  ({ navigation, route }) => {
             setSetting(_s === null ? false :  true)
           } catch (error) {console.log(error)}
         }
-        const fetchQr = async () => {
-          try {
-            const savedQr = await AsyncStorage.getItem("@qr")
-            setQr(savedQr)
-          } catch (error) {}
-        }
 
 
         setup()
-        console.log("on unfocus",_qr)
         // interactKilt()
       }
     }, [])
@@ -107,7 +100,7 @@ const Ticket =  ({ navigation, route }) => {
     navigation.navigate("Profile")
   }
   const handleTicket = async () => {
-      console.log("on handle",_qr, ts, name, age)
+      // console.log("on handle",_qr, ts, name, age)
       if (status === "No Ticket") {
         if(todo === "Scan attester"){
           setTodo("Request Ticket")
@@ -116,6 +109,19 @@ const Ticket =  ({ navigation, route }) => {
           })
           
         }else if(todo === "Request Ticket"){
+          // console.log({"name": name, "age": age}, mnemonic)
+          const request = await generateRequest({"name": name, "age": age}, mnemonic)
+          console.log(JSON.stringify(request))
+          await fetch(_qr, {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify({request: request}),
+          })
+            .then(response => response.json())
+            .then(data => setExplain(JSON.stringify(data)))
           setTodo("Scan verifier")
           setStatus("Ticket Attested")
         }

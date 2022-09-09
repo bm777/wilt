@@ -1,10 +1,11 @@
+/* eslint-disable */
 import * as Kilt from "@kiltprotocol/sdk-js"
 
 import { createClaim } from "./createClaim.js"
 import { generateKeypairs } from "./generateKeypairs.js"
 import { getCtypeSchema } from "./ctypeSchema.js"
 
-import env from "../attester/env.json" assert {type: "json"}
+import env from "./env.json"
 
 async function requestFromClaim(lightDid, keystore, claim) {
     const request = Kilt.RequestForAttestation.fromClaim(claim)
@@ -31,13 +32,13 @@ export async function generateRequest(claimAttributes, claimer_mnemonic){
             type: Kilt.VerificationKeyType.Sr25519
         }
     })
-    
 
     // claim creation
     const ctype = getCtypeSchema()
+    console.log("ctype:", ctype)
     
     const claim = createClaim(lightDid, ctype, claimAttributes)
-    console.log(claim)
+    // console.log(ctype)
 
     // create request
     console.log("claimer -> create request")

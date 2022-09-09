@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 export default function Scanner({ navigation, route }) {
@@ -39,10 +38,12 @@ let _
     if(_ && text.split("/").length >= 4){
         const value = text.split("/")[4]
         if(value === "attester" || value === "verifier"){
-
           navigation.navigate("Ticket", {qr: text})
+        }else{
+          // setText("Please scan a valid Attester or Verifier QRCcode")
         }
-        
+    }else{
+      // setText("Please scan a valid Attester or Verifier QRCcode")
     }
     
     
