@@ -10,9 +10,19 @@ global.process = require('process')
 global.location = {
   protocol: 'file:',
 }
+// fixes issue with json-schema
+delete self.location
 
-// Some modules expect userAgent to be a string
-global.navigator.userAgent = 'React Native'
+
+const { polyfillWebCrypto } = require('expo-standard-web-crypto')
+polyfillWebCrypto()
+
+require('react-native-url-polyfill/auto');
+
+console.log(global.REACT_NATIVE_URL_POLYFILL)
+
+// // Some modules expect userAgent to be a string
+// global.navigator.userAgent = 'React Native'
 
 const { encode, decode } = require('base-64')
 
@@ -22,13 +32,13 @@ global.btoa = encode
 // fixes an issue with @substrate/connect
 window.addEventListener = () => {}
 
-// fixes issue with json-schema
-self.location.origin = ''
+// // fixes issue with json-schema
+// self.location.origin = ''
 
 
-const { polyfillWebCrypto } = require('expo-standard-web-crypto')
+// const { polyfillWebCrypto } = require('expo-standard-web-crypto')
 
 
-polyfillWebCrypto()
+// polyfillWebCrypto()
 
-console.log(global.REACT_NATIVE_URL_POLYFILL)
+// console.log(global.REACT_NATIVE_URL_POLYFILL)

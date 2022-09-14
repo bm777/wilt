@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { Button, Text, View, Alert, TouchableOpacity } from 'react-native'
+import { Button, Text, View, Alert, TouchableOpacity, ScrollView } from 'react-native'
 import React, {useState} from 'react';
 import { useIsFocused, useFocusEffect } from '@react-navigation/native'
 import { generateRequest } from './claimer/generateRequest.js'
@@ -109,9 +109,8 @@ const Ticket =  ({ navigation, route }) => {
           })
           
         }else if(todo === "Request Ticket"){
-          console.log(global.REACT_NATIVE_URL_POLYFILL)
-          const request = await generateRequest({"name": name, "age": age}, mnemonic)
-          console.log(JSON.stringify(request))
+          const request = await generateRequest({"name": name, "age": parseInt(age)}, mnemonic)
+          console.log("request:", JSON.stringify(request))
           await fetch(_qr, {
             method: 'POST',
             headers: {
@@ -147,7 +146,7 @@ const Ticket =  ({ navigation, route }) => {
   }
 
     return (
-      <>
+      <ScrollView>
         {
           (setting )
           ?
@@ -236,7 +235,7 @@ const Ticket =  ({ navigation, route }) => {
         
 
         
-      </> 
+      </ScrollView> 
     )
   }
 

@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState, useEffect } from "react";
-import { Text, View, Button } from "react-native";
+import { Text, View, Button, ScrollView } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
 
@@ -71,7 +71,8 @@ let _
 
   // Return the View
   return (
-        <View className="w-full h-full">
+    <>
+      <View className="w-full h-full">
             <View >
                 <BarCodeScanner
                 onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -80,6 +81,8 @@ let _
             </View>
             <Text className="text-center text-lg mx-10"> {text} </Text>
         </View>
+    </>
+        
     
   );
 }

@@ -1,7 +1,7 @@
 /* eslint-disable */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState, useEffect} from 'react';
-import { Button, Text, TextInput, View, Alert } from 'react-native'
+import { Button, Text, TextInput, View, Alert, ScrollView } from 'react-native'
 import { useFocusEffect } from '@react-navigation/native'
 import { generateLightDid } from './claimer/generateLightDid'
 
@@ -127,97 +127,100 @@ const  Profile = ({ navigation }) => {
 
 
     return (
-        <View className="flex-1 items-center mt-10">
-            <Text>-{isSaved}</Text>
-            <Text className="font-bold text-3xl">
-                {
-                    (!isSaved)
-                    ? td.first.header
-                    : 
-                    <Text>
-                        {(last) ? td.last.header : td.second.header}
-                    </Text>
-                }
-            </Text>
-            <Text className="text-slate-600 mt-5 mx-10">
-                {
-                    (!isSaved)
-                    ? td.first.sub
-                    : 
-                    <Text>
-                        {(last) ? td.last.sub : td.second.sub}
-                    </Text>
-                }
-            </Text> 
-            <Button className="text-slate-600 mt-5 mx-10" title="reset" onPress={handleReset}>
-            </Button>
-
-            
-
-            {/* ------------------------------------------------------ */}
-            {
-                (!isSaved) 
-                ?
-                (
-                <View className="w-full flex items-center">
-                    {/* NAME INPUT */}
-                    <Text className="self-start text-indigo-500 mt-20 mx-10 text-base">Full Name </Text>
-                    <TextInput className="h-14 w-4/5 rounded bg-white text-indigo-800 text-lg font-medium pb-4 pl-2 focus:border-2 focus:border-slate-200" 
-                        blurOnSubmit={true}
-                        maxLength={32}
-                        returnKeyType="done"
-                        onChangeText={setName}
-                        value={name}
-                    />
-                    <Text className="self-end text-gray-400 mx-10 ">e.g. John Doe </Text>
-                    
-                    {/* AGE INPUT */}
-                    <Text className="self-start text-indigo-500 mt-5 mx-10 text-base">Age </Text>
-                    <TextInput className="h-14 w-4/5 rounded bg-white text-indigo-800 text-lg font-medium pb-4 pl-2 focus:border-2 focus:border-slate-200" 
-                        blurOnSubmit={true}
-                        keyboardType={"numeric"}
-                        maxLength={2}
-                        returnKeyType="done"
-                        onChangeText={setAge}
-                        value={age}
-                    />
-                    <Text className="self-end text-gray-400 mx-10 ">e.g. 25 </Text>
-
-                    <View className="w-4/5 h-14 bg-indigo-800 mt-10 rounded-full flex justify-center">
-                        <Button className=" text-center text-lg font-medium" title='SAVE' color={"white"} onPress={handleSave}/>
-                    </View>
-                    {/* <Text>log-{log}</Text> */}
-                    <Text className="self-start text-gray-500 mx-20 mt-10">{}</Text>
-                </View>
-                )
-                :
-                <View className="w-full flex items-center">
+        <ScrollView>
+            <View className="flex-1 items-center mt-10">
+                <Text>-{isSaved}</Text>
+                <Text className="font-bold text-3xl">
                     {
-                        (last)
-                        ?
-                        <View className=" w-full flex items-center h-full">
-                            <View className="w-4/5 h-14 px-10 bg-teal-800 rounded-full flex justify-center top-2/4 ">
-                                <Button className=" text-center text-lg font-bold" title='Done' color={"white"} onPress={handleLast}/>
-                            </View>
-
-                        </View>
-                        :
-                        <View className="w-full flex flex-wrap justify-center flex-row gap-7 mt-10">
-                        {mnemonic.map((word, idx) => (
-                            <View className="bg-teal-200 w-40 rounded-full" key={idx}>
-                                <Text className="self-center text-black py-2 font-semibold">({idx+1}) {word}</Text>
-                            </View>
-                        ))}
-                        {/* <Text>log-{log}</Text> */}
-                        <View className="w-4/5 h-14 bg-teal-800 mt-10 rounded-full flex justify-center">
-                            <Button className=" text-center text-lg font-medium" title='Done' color={"white"} onPress={handleDone}/>
-                        </View>
-                    </View>
+                        (!isSaved)
+                        ? td.first.header
+                        : 
+                        <Text>
+                            {(last) ? td.last.header : td.second.header}
+                        </Text>
                     }
-                </View>
-            }
+                </Text>
+                <Text className="text-slate-600 mt-5 mx-10">
+                    {
+                        (!isSaved)
+                        ? td.first.sub
+                        : 
+                        <Text>
+                            {(last) ? td.last.sub : td.second.sub}
+                        </Text>
+                    }
+                </Text> 
+                <Button className="text-slate-600 mt-5 mx-10" title="reset" onPress={handleReset}>
+                </Button>
 
-        </View>
+                
+
+                {/* ------------------------------------------------------ */}
+                {
+                    (!isSaved) 
+                    ?
+                    (
+                    <View className="w-full flex items-center">
+                        {/* NAME INPUT */}
+                        <Text className="self-start text-indigo-500 mt-20 mx-10 text-base">Full Name </Text>
+                        <TextInput className="h-14 w-4/5 rounded bg-white text-indigo-800 text-lg font-medium pb-4 pl-2 focus:border-2 focus:border-slate-200" 
+                            blurOnSubmit={true}
+                            maxLength={32}
+                            returnKeyType="done"
+                            onChangeText={setName}
+                            value={name}
+                        />
+                        <Text className="self-end text-gray-400 mx-10 ">e.g. John Doe </Text>
+                        
+                        {/* AGE INPUT */}
+                        <Text className="self-start text-indigo-500 mt-5 mx-10 text-base">Age </Text>
+                        <TextInput className="h-14 w-4/5 rounded bg-white text-indigo-800 text-lg font-medium pb-4 pl-2 focus:border-2 focus:border-slate-200" 
+                            blurOnSubmit={true}
+                            keyboardType={"numeric"}
+                            maxLength={2}
+                            returnKeyType="done"
+                            onChangeText={setAge}
+                            value={age}
+                        />
+                        <Text className="self-end text-gray-400 mx-10 ">e.g. 25 </Text>
+
+                        <View className="w-4/5 h-14 bg-indigo-800 mt-10 rounded-full flex justify-center">
+                            <Button className=" text-center text-lg font-medium" title='SAVE' color={"white"} onPress={handleSave}/>
+                        </View>
+                        {/* <Text>log-{log}</Text> */}
+                        <Text className="self-start text-gray-500 mx-20 mt-10">{}</Text>
+                    </View>
+                    )
+                    :
+                    <View className="w-full flex items-center">
+                        {
+                            (last)
+                            ?
+                            <View className=" w-full flex items-center h-full">
+                                <View className="w-4/5 h-14 px-10 bg-teal-800 rounded-full flex justify-center top-2/4 ">
+                                    <Button className=" text-center text-lg font-bold" title='Done' color={"white"} onPress={handleLast}/>
+                                </View>
+
+                            </View>
+                            :
+                            <View className="w-full flex flex-wrap justify-center flex-row gap-7 mt-10">
+                            {mnemonic.map((word, idx) => (
+                                <View className="bg-teal-200 w-40 rounded-full" key={idx}>
+                                    <Text className="self-center text-black py-2 font-semibold">({idx+1}) {word}</Text>
+                                </View>
+                            ))}
+                            {/* <Text>log-{log}</Text> */}
+                            <View className="w-4/5 h-14 bg-teal-800 mt-10 rounded-full flex justify-center">
+                                <Button className=" text-center text-lg font-medium" title='Done' color={"white"} onPress={handleDone}/>
+                            </View>
+                        </View>
+                        }
+                    </View>
+                }
+
+            </View>
+        </ScrollView>
+        
     )
   }
 
