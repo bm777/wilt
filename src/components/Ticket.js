@@ -109,7 +109,7 @@ const Ticket =  ({ navigation, route }) => {
           })
           
         }else if(todo === "Request Ticket"){
-          // console.log({"name": name, "age": age}, mnemonic)
+          console.log(global.REACT_NATIVE_URL_POLYFILL)
           const request = await generateRequest({"name": name, "age": age}, mnemonic)
           console.log(JSON.stringify(request))
           await fetch(_qr, {

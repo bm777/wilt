@@ -1,5 +1,7 @@
 // polyfill for TextDecoder
+
 require('text-encoding-polyfill')
+
 
 global.Buffer = require('buffer').Buffer
 global.process = require('process')
@@ -23,6 +25,10 @@ window.addEventListener = () => {}
 // fixes issue with json-schema
 self.location.origin = ''
 
+
 const { polyfillWebCrypto } = require('expo-standard-web-crypto')
 
+
 polyfillWebCrypto()
+
+console.log(global.REACT_NATIVE_URL_POLYFILL)
